@@ -62,6 +62,7 @@ const userSchema = new Schema({
 
     role:{
         type:String,
+        default:"customer",
         enum:["superAdmin", "shopOwner", "customer"]
     }
 
