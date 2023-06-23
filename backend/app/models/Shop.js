@@ -68,6 +68,11 @@ const shopSchema = new Schema({
     isVerified:{
         type:Boolean,
         default:false
+    },
+    
+    shopOwnerId:{
+        type:Schema.Types.ObjectId,
+        ref:"User"
     }
 
 })
