@@ -19,7 +19,7 @@ const categorySchema = new Schema({
             }
         }
     },
-    imageUrl: {
+    image: {
         type: String,
         validate: {
             validator: function (value) {
