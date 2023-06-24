@@ -78,5 +78,4 @@ usersController.update = async(req, res)=>{
 }
 
 
-
 module.exports = usersController
