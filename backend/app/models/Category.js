@@ -33,7 +33,7 @@ const categorySchema = new Schema({
         },
         unique: true
     },
-    ownerId: {
+    shopOwnerId: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
