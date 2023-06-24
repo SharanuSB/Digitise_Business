@@ -38,7 +38,9 @@ usersController.login = async(req, res)=>{
                 }
                 const token =jwt.sign(tokenData, process.env.JWT_SECRET)
                 if(token){
-                    res.json(token)
+                    res.json({
+                        token:`Bearer ${token}`
+                    })
                 }else{
                     res.json({
                         error:"No Token Found"
@@ -54,6 +56,22 @@ usersController.login = async(req, res)=>{
                 error:"Invalid Email or Password"
             })
         }
+    } catch (error) {
+        res.json(error)
+    }
+}
+
+usersController.update = async(req, res)=>{
+    try {   
+        const body = req.body
+        
+        // Deleteing email and password properties ---
+        delete body.email
+        delete body.password
+
+        const id = req.user.id
+        const user = await User.findByIdAndUpdate(id, body, {new:true, runValidators:true})
+        res.json(user)
     } catch (error) {
         res.json(error)
     }
