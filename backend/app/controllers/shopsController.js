@@ -4,22 +4,12 @@ const shopsController = {}
 
 shopsController.list = async (req, res) => {
     try {
-        const id = req.user.id
-        console.log()
-        const role = req.user.role
-        let shops
-        if (role == "superAdmin") {
-            shops = await Shop.find()
-        } else if (role == "shopOwner") {
-            shops = await Shop.findOne({ shopOwnerId: id })
-            console.log(shops)
-        }
+        const shops = await Shop.find()
         if (shops) {
             res.json(shops)
         } else {
-            res.json({})
+            res.json([])
         }
-
     } catch (error) {
         res.json(error)
     }
@@ -46,10 +36,10 @@ shopsController.update = async (req, res) => {
         console.log(body)
         const shopId = req.params.id
         const id = req.user.id
-        const shop = await Shop.findOneAndUpdate({_id:shopId, shopOwnerId:id}, {...body}, {new:true, runValidators:true})
-        if(shop){
+        const shop = await Shop.findOneAndUpdate({ _id: shopId, shopOwnerId: id }, { ...body }, { new: true, runValidators: true })
+        if (shop) {
             res.json(shop)
-        }else{
+        } else {
             res.json({})
         }
 
@@ -58,14 +48,14 @@ shopsController.update = async (req, res) => {
     }
 }
 
-shopsController.destroy = async(req, res)=>{
+shopsController.destroy = async (req, res) => {
     try {
         const id = req.params.id
         const ownerId = req.user.id
-        const shop = await Shop.findOneAndDelete({_id:id, shopOwnerId:ownerId})
-        if(shop){
+        const shop = await Shop.findOneAndDelete({ _id: id, shopOwnerId: ownerId })
+        if (shop) {
             res.json(shop)
-        }else{
+        } else {
             res.json({})
         }
     } catch (error) {
