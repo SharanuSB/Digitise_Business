@@ -32,6 +32,15 @@ router.post("/api/shops", userAuthentication, (req,res, next)=>{
     next()
 },authorizeUser, shopsController.create)
 
+router.put("/api/shops/:id", userAuthentication, (req,res, next)=>{
+    req.permittedRoles = ["shopOwner"]
+    next()
+},authorizeUser, shopsController.update)
+
+router.delete("/api/shops/:id", userAuthentication, (req,res, next)=>{
+    req.permittedRoles = ["shopOwner"]
+    next()
+},authorizeUser, shopsController.destroy)
 
 
 module.exports = router
