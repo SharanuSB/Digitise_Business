@@ -1,27 +1,39 @@
 const Cart = require('../models/Cart')
+const Product = require("../models/Product")
 
-const cartController = {}
+const cartsController = {}
 
-cartController.list = async(req, res) => {
+
+cartsController.show = async (req, res) => {
     try {
-        const userId = req.user.id
-        const cart = await Cart.find({userId:userId})
-        if(cart){
+        const customerId = req.user.id
+        const cart = await Cart.find({ customerId: customerId })
+        if (cart) {
             res.json(cart)
-        }else{
-            res.json([])
+        } else {
+            res.json({})
         }
     } catch (error) {
         res.json(error)
     }
 }
 
-cartController.create = async(req, res) => {
+
+cartsController.addProducts = async (req, res) => {
     try {
+        const productId = req.params.productId
+        const product = await Product.findOne({ _id: productId })
+
+        const customerId = req.user.id
+        const cart = await Cart.findOne({ customerId: customerId })
+
         
+
+        
+
     } catch (error) {
-        
+        res.json(error)
     }
 }
 
-module.exports = cartController
+module.exports = cartsController

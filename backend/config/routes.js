@@ -7,6 +7,7 @@ const shopsController = require("../app/controllers/shopsController")
 const authorizeUser = require("../app/middlewares/authorizeUser")
 const productsController = require("../app/controllers/productsController")
 const authorizeOwner = require("../app/middlewares/authorizeOwner")
+const cartsController = require("../app/controllers/cartController")
 
 
 const router = express.Router()
@@ -17,7 +18,7 @@ router.post("/api/users/login", usersController.login)
 router.put("/api/users/update", userAuthentication, usersController.update)
 
 /// Api's For Category Model ------
-router.get("/api/categories/listAll", categoryController.listAll)
+router.get("/api/categories/listAll/:id", categoryController.listAll)
 
 router.post("/api/categories/create/:id", userAuthentication, (req, res, next) => {
     req.permittedRoles = ['shopOwner']
@@ -72,6 +73,11 @@ router.delete("/api/products/destroy/:id" ,userAuthentication, (req,res, next)=>
     req.permittedRoles = ["shopOwner"]
     next()
 },authorizeUser,authorizeOwner, productsController.destroy)
+
+
+/// Api's for Carts Model --------
+router.get("/api/carts", userAuthentication, cartsController.show )
+router.post("/api/carts/:productId", userAuthentication, cartsController.addProducts)
 
 
 module.exports = router
