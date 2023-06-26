@@ -1,5 +1,4 @@
 const Product = require("../models/Product")
-const Shop = require("../models/Shop")
 
 const productsController = {}
 
@@ -20,11 +19,41 @@ productsController.listAll = async(req, res)=>{
 productsController.create = async(req, res)=>{
     try {
         const body = req.body
+        console.log(body)
         const shopId = req.params.id
         const categoryId = req.query.categoryId
         const shop = await Product.create({...body, shopId:shopId, categoryId:categoryId})
         if(shop){
             res.json(shop)
+        }else{
+            res.json({})
+        }
+    } catch (error) {
+        res.json(error)
+    }
+}
+
+productsController.update = async(req, res)=>{
+    try {
+        const body = req.body
+        const productId = req.params.id
+        const product = await Product.findOneAndUpdate({_id:productId}, body, {new:true, runValidators:true})
+        if(product){
+            res.json(product)
+        }else{
+            res.json({})
+        }
+    } catch (error) {
+        res.json(error)
+    }
+}
+
+productsController.destroy = async(req, res)=>{
+    try {
+        const id = req.params.id
+        const product = await Product.findByIdAndDelete(id)
+        if(product){
+            res.json(product)
         }else{
             res.json({})
         }

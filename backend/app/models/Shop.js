@@ -32,6 +32,16 @@ const shopSchema = new Schema({
         minlength: 10,
         maxlength: 10,
         required: [true, "Contact Number is Required"],
+        validate:{
+            validator:function(value){
+                return validator.isNumeric(value)
+            },
+            message:function(value){
+                return {
+                    error:`Contact Number should contain only Numbers`
+                }
+            }
+        },
         unique:true
     },
 
@@ -47,21 +57,20 @@ const shopSchema = new Schema({
                 }
             }   
         },
-        unique:true
     },
 
     socialLinks:{
         instagram:{
             type:String,
-            unique:true
+            
         },
         youtube:{
             type:String,
-            unique:true
+            
         },
         facebook:{
             type:String,
-            unique:true
+            
         }
     },
     

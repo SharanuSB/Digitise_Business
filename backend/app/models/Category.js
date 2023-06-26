@@ -31,7 +31,7 @@ const categorySchema = new Schema({
                 }
             }
         },
-        unique: true
+       
     },
     shopId: {
         type: Schema.Types.ObjectId,
