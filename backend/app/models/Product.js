@@ -16,16 +16,6 @@ const productSchema = new Schema({
         type:Number,
         required:true,
         min:1,
-        validate:{
-            validator:function(value){
-                return validator.isNumeric(Number(value))
-            },
-            message:function(){
-                return {
-                    error:"Price Should be a Number Always"
-                }
-            }
-        }
     },
 
     image:{

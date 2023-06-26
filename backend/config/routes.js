@@ -66,7 +66,7 @@ router.post("/api/products/create/:id" ,userAuthentication, (req,res, next)=>{
 router.put("/api/products/update/:id" ,userAuthentication, (req,res, next)=>{
     req.permittedRoles = ["shopOwner"]
     next()
-},authorizeUser,authorizeOwner, productsController.update)
+},authorizeUser, productsController.update)
 
 router.delete("/api/products/destroy/:id" ,userAuthentication, (req,res, next)=>{
     req.permittedRoles = ["shopOwner"]
