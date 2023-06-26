@@ -9,7 +9,7 @@ const productSchema = new Schema({
         required:true,
         minlength:3,
         maxlength:20,
-        unique:[true, "Already Taken"]
+       
     },
 
     price:{
@@ -30,7 +30,6 @@ const productSchema = new Schema({
                 }
             }
         },
-        unique: true
     },
 
     Description:{

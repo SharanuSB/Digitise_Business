@@ -20,12 +20,12 @@ productsController.listAll = async(req, res)=>{
 productsController.create = async(req, res)=>{
     try {
         const body = req.body
-        console.log(body)
         const shopId = req.params.id
         const categoryId = req.query.categoryId
-        const shop = await Product.create({...body, shopId:shopId, categoryId:categoryId})
-        if(shop){
-            res.json(shop)
+        const product = await Product.create({...body, shopId:shopId, categoryId:categoryId})
+     
+        if(product){
+           res.json(product)
         }else{
             res.json({})
         }
