@@ -18,7 +18,6 @@ shopsController.list = async (req, res) => {
 shopsController.create = async (req, res) => {
     try {
         const body = req.body
-        console.log(body)
         const id = req.user.id
         const shopObj = await Shop.create({...body,shopOwnerId:id,website:`http://digitisebusiness.com/${body.name}`})
         if (shopObj) {
