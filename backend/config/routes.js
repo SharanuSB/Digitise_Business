@@ -8,6 +8,7 @@ const authorizeUser = require("../app/middlewares/authorizeUser")
 const productsController = require("../app/controllers/productsController")
 const authorizeOwner = require("../app/middlewares/authorizeOwner")
 const cartsController = require("../app/controllers/cartController")
+const ordersController = require("../app/controllers/ordersController")
 
 
 const router = express.Router()
@@ -80,5 +81,9 @@ router.get("/api/carts", userAuthentication, cartsController.show )
 router.post("/api/carts/addProducts/:productId", userAuthentication, cartsController.addProducts)
 router.put("/api/carts/removeProducts/:productId", userAuthentication, cartsController.removeProduct)
 
+
+/// Api's for Order Model -----
+router.get('/api/orders', userAuthentication, ordersController.list)
+router.post('/api/create-order', userAuthentication, ordersController.create)
 
 module.exports = router
