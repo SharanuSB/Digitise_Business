@@ -42,7 +42,6 @@ ordersController.create = async (req, res) => {
             }
             return itemWithPrice
         }))
-        // console.log(itemsWithPrice)
 
         const totalPrice = itemsWithPrice.reduce((total, item) => total + (item.price * item.quantity), 0)
         console.log(totalPrice)
