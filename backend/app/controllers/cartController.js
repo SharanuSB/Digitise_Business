@@ -30,7 +30,7 @@ cartsController.addProducts = async (req, res) => {
         const cart = await Cart.findOne({ customerId: customerId })
 
         const cartItemBody = {
-            productId: productId, quantity: 1, price: product.price
+            productId: productId, quantity: 1, price: product.price, shopId: shopId
         }
 
         let cartItem
