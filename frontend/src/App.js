@@ -1,10 +1,13 @@
+import Navbar from "./Components/Navbar/Navbar"
 
-function App() {
+
+
+const App = ()=>{
   return (
-    <div className="App">
-        HI
+    <div>
+        <Navbar/>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
