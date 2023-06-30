@@ -22,34 +22,30 @@ ordersController.create = async (req, res) => {
     try {
         const customerId = req.user.id
         const cart = await Cart.findOne({customerId: customerId})
-
         const shopId = cart.shopId
         
         const cartItems = cart.cartItems
 
-        const orderNumber = Math.round(Math.random() * 1000)
+        const orderNumber = Math.round(Math.random() * 100000000)
 
         const itemsWithPrice = await Promise.all(cartItems.map(async (item) => {
             const product = await Product.findById(item.productId)
-            if (!product) {
-                throw new Error(`Product not found for ID: ${item.productId}`)
-            }
-            const itemWithPrice = {
+            const WithPrice = {
                 productId: item.productId,
                 quantity: item.quantity,
                 price: product.price
             }
-            return itemWithPrice
+            return WithPrice
         }))
 
         const totalPrice = itemsWithPrice.reduce((total, item) => total + (item.price * item.quantity), 0)
-        console.log(totalPrice)
 
         const body = req.body
-        const orderObj = new Order({orderNumber: orderNumber, customerId: customerId, orderItems: itemsWithPrice, ...body, Total: totalPrice, shopId: shopId})
-        const order = await orderObj.save()
-        await Cart.findByIdAndDelete(cart._id)
-        res.json(order)
+        const order = await Order.create({orderNumber: orderNumber, customerId: customerId, orderItems: itemsWithPrice, ...body, Total: totalPrice, shopId: shopId})
+        if(order) {
+            res.json(order)
+            await Cart.findByIdAndDelete(cart._id)
+        }
     } catch (error) {
         res.json(error)
     }
