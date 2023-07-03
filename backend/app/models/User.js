@@ -9,16 +9,6 @@ const userSchema = new Schema({
         minlength: 5,
         maxlength: 26,
         required: true,
-        validate: {
-            validator: function (value) {
-                return validator.isAlpha(value)
-            },
-            message: function (value) {
-                return {
-                    error: "Username Should only contain the Alphabets"
-                }
-            }
-        }
     },
     email: {
         type: String,
