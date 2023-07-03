@@ -1,10 +1,15 @@
+import { startRegisterUserAccount } from "../../Redux/Actions/usersAction"
 import RegisterForm from "../Navbar/Register"
+import {useDispatch} from "react-redux"
 
-const OwnerRegister = ()=>{
+const OwnerRegister = (props)=>{
 
-    const submitForm = ()=>{
+    const dispatch = useDispatch()
 
-    }
+    const submitForm = (formData)=>{
+        const userData = {...formData, role:"shopOwner"}
+        dispatch(startRegisterUserAccount(userData, props))
+    }   
 
     return (
         <div>

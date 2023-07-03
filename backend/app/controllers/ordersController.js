@@ -7,8 +7,8 @@ const ordersController = {}
 ordersController.list = async (req, res) => {
     try {
         const customerId = req.user.id
-        const order = await Order.findOne({customerId: customerId})
-        if(order) {
+        const order = await Order.findOne({ customerId: customerId })
+        if (order) {
             res.json(order)
         } else {
             res.json([])
@@ -21,10 +21,10 @@ ordersController.list = async (req, res) => {
 ordersController.create = async (req, res) => {
     try {
         const customerId = req.user.id
-        const cart = await Cart.findOne({customerId: customerId})
+        const cart = await Cart.findOne({ customerId: customerId })
 
         const shopId = cart.shopId
-        
+
         const cartItems = cart.cartItems
 
         const orderNumber = Math.round(Math.random() * 1000)
@@ -46,7 +46,7 @@ ordersController.create = async (req, res) => {
         console.log(totalPrice)
 
         const body = req.body
-        const orderObj = new Order({orderNumber: orderNumber, customerId: customerId, orderItems: itemsWithPrice, ...body, Total: totalPrice, shopId: shopId})
+        const orderObj = new Order({ orderNumber: orderNumber, customerId: customerId, orderItems: itemsWithPrice, ...body, Total: totalPrice, shopId: shopId })
         const order = await orderObj.save()
         await Cart.findByIdAndDelete(cart._id)
         res.json(order)
@@ -55,7 +55,7 @@ ordersController.create = async (req, res) => {
     }
 }
 
-ordersController.delete = async(req, res) => {
+ordersController.delete = async (req, res) => {
     try {
         const orderId = req.params.id
         const deleteOrder = await Order.findByIdAndDelete(orderId)
