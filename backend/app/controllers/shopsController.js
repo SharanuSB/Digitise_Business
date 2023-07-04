@@ -19,7 +19,7 @@ shopsController.create = async (req, res) => {
     try {
         const body = req.body
         const id = req.user.id
-        const shopObj = await Shop.create({...body,shopOwnerId:id,website:`http://digitisebusiness.com/${body.name}`})
+        const shopObj = await Shop.create({...body,shopOwnerId:id,website:`http://${body.name}/.com`})
         if (shopObj) {
             res.json(shopObj)
         } else {
@@ -33,7 +33,6 @@ shopsController.create = async (req, res) => {
 shopsController.update = async (req, res) => {
     try {
         const body = req.body
-        console.log(body)
         const shopId = req.params.id
         const id = req.user.id
         const shop = await Shop.findOneAndUpdate({ _id: shopId, shopOwnerId: id }, { ...body }, { new: true, runValidators: true })

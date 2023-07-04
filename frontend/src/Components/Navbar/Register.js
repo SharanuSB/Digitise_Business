@@ -19,7 +19,7 @@ const RegisterForm = (props) => {
             errors.username = "Username is Required"
         } else if (username.length < 3) {
             errors.username = "Username should have more than 3 letters"
-        }if(username.includes("123456789!@#$%^&*()+{};:<>?")){
+        } if (username.includes("123456789!@#$%^&*()+{};:<>?")) {
             errors.username = "Username should only contain Alphabets"
         }
 
@@ -53,7 +53,7 @@ const RegisterForm = (props) => {
 
         formValidations()
 
-        if (Object.keys(formErrors) !== 0) {
+        if (Object.keys(formErrors) === 0) {
             const formData = {
                 username, email, phone, password
             }
@@ -63,30 +63,33 @@ const RegisterForm = (props) => {
     }
 
     return (
-        <div>
-            <form onSubmit={formSubmit}>
-                <label htmlFor="name">Name</label><br />
-                <input id="name" type="text" value={username} onChange={(e) => { setUsername(e.target.value) }} /><br />
-                {formErrors?.username && <span style={{ color: "red" }}>{formErrors?.username}</span>}<br />
+        <div className="d-flex justify-content-center ">
+            <div className="card p-4 shadow my-4 col-md-4">
+                <h1 >Register</h1>
+                <form onSubmit={formSubmit}>
+                    <label htmlFor="name" className="form-label">Name</label><br />
+                    <input id="name" type="text" value={username} onChange={(e) => { setUsername(e.target.value) }} className="form-control"/><br />
+                    {formErrors?.username && <span style={{ color: "red" }}>{formErrors?.username}</span>}<br />
 
-                <label htmlFor="email">Email</label><br />
-                <input id="email" type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} /><br />
-                {formErrors?.email && <span style={{ color: "red" }}>{formErrors?.email}</span>}<br />
+                    <label htmlFor="email">Email</label><br />
+                    <input id="email" type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} className="form-control"/><br />
+                    {formErrors?.email && <span style={{ color: "red" }}>{formErrors?.email}</span>}<br />
 
-                <label htmlFor="phone">Phone</label><br />
-                <input id="phone" type="text" value={phone} onChange={(e) => { setPhone(e.target.value) }} /><br />
-                {formErrors?.phone && <span style={{ color: "red" }}>{formErrors?.phone}</span>}<br />
+                    <label htmlFor="phone">Phone</label><br />
+                    <input id="phone" type="text" value={phone} onChange={(e) => { setPhone(e.target.value) }} className="form-control"/><br />
+                    {formErrors?.phone && <span style={{ color: "red" }}>{formErrors?.phone}</span>}<br />
 
-                <label htmlFor="pass">Password</label><br />
-                <input id="pass" type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} /><br />
-                {formErrors?.password && <span style={{ color: "red" }}>{formErrors?.password}</span>}<br />
+                    <label htmlFor="pass">Password</label><br />
+                    <input id="pass" type="password" value={password} onChange={(e) => { setPassword(e.target.value) }}className="form-control" /><br />
+                    {formErrors?.password && <span style={{ color: "red" }}>{formErrors?.password}</span>}<br />
 
-                <label htmlFor="confirm">Confirm Password</label><br />
-                <input id="confirm" type="password" value={confirmPassWord} onChange={(e) => { setConfirmPassword(e.target.value) }} /><br />
-                {formErrors?.confirm && <span style={{ color: "red" }}>{formErrors?.confirm}</span>}<br />
+                    <label htmlFor="confirm">Confirm Password</label><br />
+                    <input id="confirm" type="password" value={confirmPassWord} onChange={(e) => { setConfirmPassword(e.target.value) }} className="form-control"/><br />
+                    {formErrors?.confirm && <span style={{ color: "red" }}>{formErrors?.confirm}</span>}<br />
 
-                <input type="submit" />
-            </form>
+                    <input type="submit" className="btn btn-primary"/>
+                </form>
+            </div>
         </div>
     )
 }
