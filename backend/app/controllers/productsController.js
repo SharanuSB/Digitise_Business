@@ -1,4 +1,4 @@
-const Category = require("../models/Category")
+
 const Product = require("../models/Product")
 
 const productsController = {}
@@ -37,7 +37,7 @@ productsController.create = async(req, res)=>{
 productsController.update = async(req, res)=>{
     try {
         const body = req.body
-        const productId = req.params.id
+        const productId = req.query.id
         const product = await Product.findOneAndUpdate({_id:productId}, body, {new:true, runValidators:true})
         if(product){
             res.json(product)
@@ -51,7 +51,7 @@ productsController.update = async(req, res)=>{
 
 productsController.destroy = async(req, res)=>{
     try {
-        const id = req.params.id
+        const id = req.query.id
         const product = await Product.findByIdAndDelete(id)
         if(product){
             res.json(product)

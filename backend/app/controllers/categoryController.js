@@ -7,7 +7,7 @@ categoryController.create = async(req, res) => {
     try {
         const shopId = req.params.id
         const body = req.body
-        console.log(body)
+        // console.log(body)
         const category = await Category.create({shopId:shopId, ...body})
         if(category) {
             res.json(category)
@@ -22,7 +22,7 @@ categoryController.create = async(req, res) => {
 categoryController.listAll = async(req, res)=>{
     try {
         const shopId = req.params.id
-        console.log(shopId)
+        // console.log(shopId)
         const categories = await Category.find({shopId:shopId})
         if(categories){
             res.json(categories)
@@ -36,7 +36,7 @@ categoryController.listAll = async(req, res)=>{
 
 categoryController.update = async(req, res)=>{
     try {
-        const categoryId = req.params.id
+        const categoryId = req.query.id
         const body = req.body
         const category = await Category.findByIdAndUpdate(categoryId, body, {new:true, runValidators:true})
         if(category){
@@ -51,7 +51,7 @@ categoryController.update = async(req, res)=>{
 
 categoryController.destroy = async(req, res)=>{
     try {
-        const categoryId = req.params.id
+        const categoryId = req.query.id
         const category = await Category.findByIdAndDelete(categoryId)
         if(category){
             res.json(category)
