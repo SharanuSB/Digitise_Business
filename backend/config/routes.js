@@ -19,7 +19,7 @@ router.post("/api/users/login", usersController.login)
 router.put("/api/users/update", userAuthentication, usersController.update)
 
 /// Api's For Category Model ------
-router.get("/api/categories/listAll/:id", categoryController.listAll)
+router.get("/api/categories/listAll/:id",userAuthentication, categoryController.listAll)
 
 router.post("/api/categories/create/:id", userAuthentication, (req, res, next) => {
     req.permittedRoles = ['shopOwner']
@@ -38,9 +38,17 @@ router.delete("/api/categories/destroy/:id", userAuthentication, (req, res, next
 
 
 /// Api's For Shop Model
-router.get("/api/shops", shopsController.list)
+router.get("/api/shops/listAll",userAuthentication,(req,res, next)=>{
+    req.permittedRoles = ["superAdmin"]
+    next()
+},authorizeUser, shopsController.listAll)
 
-router.post("/api/shops", userAuthentication, (req,res, next)=>{
+router.get("/api/shops",userAuthentication,(req,res, next)=>{
+    req.permittedRoles = ["shopOwner"]
+    next()
+},authorizeUser, shopsController.show)
+
+router.post("/api/shops",userAuthentication, (req,res, next)=>{
     req.permittedRoles = ["shopOwner"]
     next()
 },authorizeUser, shopsController.create)
@@ -58,7 +66,7 @@ router.delete("/api/shops/:id", userAuthentication, (req,res, next)=>{
 
 /// Api's for Products Model --------
 
-router.get("/api/products/listAll/:id", productsController.listAll)
+router.get("/api/products/listAll/:id",userAuthentication, productsController.listAll)
 
 router.post("/api/products/create/:id" ,userAuthentication, (req,res, next)=>{
     req.permittedRoles = ["shopOwner"]
@@ -68,7 +76,7 @@ router.post("/api/products/create/:id" ,userAuthentication, (req,res, next)=>{
 router.put("/api/products/update/:id" ,userAuthentication, (req,res, next)=>{
     req.permittedRoles = ["shopOwner"]
     next()
-},authorizeUser, productsController.update)
+},authorizeUser,authorizeOwner, productsController.update)
 
 router.delete("/api/products/destroy/:id" ,userAuthentication, (req,res, next)=>{
     req.permittedRoles = ["shopOwner"]

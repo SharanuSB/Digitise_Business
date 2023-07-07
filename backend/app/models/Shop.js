@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const validator = require("validator")
+const nameFormat = /^[a-zA-Z ]*$/
 
 const Schema = mongoose.Schema
 
@@ -12,11 +13,11 @@ const shopSchema = new Schema({
         required:true,
         validate: {
             validator: function (value) {
-                return validator.isAlphanumeric(value)
+                return nameFormat.test(value)
             },
             message: function (value) {
                 return {
-                    error: `${value} is not a valid shop name`
+                    error: `${value} is not a valid Shop name`
                 }
             }
         }
