@@ -1,5 +1,5 @@
 import { startRegisterUserAccount } from "../../Redux/Actions/usersAction"
-import RegisterForm from "../Navbar/Register"
+import RegisterForm from "./Register"
 import { useDispatch } from "react-redux"
 
 const OwnerRegister = (props) => {
