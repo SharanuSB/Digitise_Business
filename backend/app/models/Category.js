@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const validator = require("validator")
+const nameFormat = /^[a-zA-Z ]*$/
 
 const categorySchema = new Schema({
     name: {
@@ -10,7 +11,7 @@ const categorySchema = new Schema({
         maxlength: 30,
         validate: {
             validator: function (value) {
-                return validator.isAlpha(value)
+                return nameFormat.test(value)
             },
             message: function (value) {
                 return {
