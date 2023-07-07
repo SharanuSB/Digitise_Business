@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react"
+import { useState} from "react"
 import validator from "validator"
+import { Link } from "react-router-dom/cjs/react-router-dom.min"
 
 const RegisterForm = (props) => {
 
@@ -19,8 +20,6 @@ const RegisterForm = (props) => {
             errors.username = "Username is Required"
         } else if (username.length < 3) {
             errors.username = "Username should have more than 3 letters"
-        } if (username.includes("123456789!@#$%^&*()+{};:<>?")) {
-            errors.username = "Username should only contain Alphabets"
         }
 
         if (email.length === 0) {
@@ -47,47 +46,51 @@ const RegisterForm = (props) => {
         setFormErrors(errors)
     }
 
-
     const formSubmit = (e) => {
         e.preventDefault()
+             formValidations()
 
-        formValidations()
-
-        if (Object.keys(formErrors) === 0) {
+        if (Object.keys(errors).length === 0) {
             const formData = {
                 username, email, phone, password
             }
             submitForm(formData)
         }
-
     }
 
     return (
         <div className="d-flex justify-content-center ">
             <div className="card p-4 shadow my-4 col-md-4">
-                <h1 >Register</h1>
+                <h1 className="">Register</h1>
                 <form onSubmit={formSubmit}>
                     <label htmlFor="name" className="form-label">Name</label><br />
-                    <input id="name" type="text" value={username} onChange={(e) => { setUsername(e.target.value) }} className="form-control"/><br />
-                    {formErrors?.username && <span style={{ color: "red" }}>{formErrors?.username}</span>}<br />
+                    <input id="name" type="text" 
+                    value={username} 
+                    onChange={(e) => { setUsername(e.target.value) }} 
+                    placeholder="Enter your name"
+                    className="form-control"/>
+                    {formErrors?.username && <><span style={{ color: "red" }}>{formErrors?.username}</span > <br/></>}
 
                     <label htmlFor="email">Email</label><br />
-                    <input id="email" type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} className="form-control"/><br />
-                    {formErrors?.email && <span style={{ color: "red" }}>{formErrors?.email}</span>}<br />
+                    <input id="email" type="text" 
+                    value={email} onChange={(e) => { setEmail(e.target.value) }} 
+                    placeholder="Enter your email"
+                    className="form-control"/>
+                    {formErrors?.email && <><span style={{ color: "red" }}>{formErrors?.email}</span><br /></>}
 
                     <label htmlFor="phone">Phone</label><br />
-                    <input id="phone" type="text" value={phone} onChange={(e) => { setPhone(e.target.value) }} className="form-control"/><br />
-                    {formErrors?.phone && <span style={{ color: "red" }}>{formErrors?.phone}</span>}<br />
+                    <input id="phone" type="text" value={phone} onChange={(e) => { setPhone(e.target.value) }} className="form-control"/>
+                    {formErrors?.phone && <><span style={{ color: "red" }}>{formErrors?.phone}</span><br /></>}
 
                     <label htmlFor="pass">Password</label><br />
-                    <input id="pass" type="password" value={password} onChange={(e) => { setPassword(e.target.value) }}className="form-control" /><br />
-                    {formErrors?.password && <span style={{ color: "red" }}>{formErrors?.password}</span>}<br />
+                    <input id="pass" type="password" value={password} onChange={(e) => { setPassword(e.target.value) }}className="form-control" />
+                    {formErrors?.password && <><span style={{ color: "red" }}>{formErrors?.password}</span><br /></>}
 
                     <label htmlFor="confirm">Confirm Password</label><br />
                     <input id="confirm" type="password" value={confirmPassWord} onChange={(e) => { setConfirmPassword(e.target.value) }} className="form-control"/><br />
-                    {formErrors?.confirm && <span style={{ color: "red" }}>{formErrors?.confirm}</span>}<br />
+                    {formErrors?.confirm && <><span style={{ color: "red" }}>{formErrors?.confirm}</span><br /></>}
 
-                    <input type="submit" className="btn btn-primary"/>
+                    <input type="submit" className="btn btn-primary"/><span className="p-5">Already have a account <Link to="/login"> login</Link></span>
                 </form>
             </div>
         </div>

@@ -7,8 +7,9 @@ const categorySchema = new Schema({
     name: {
         type: String,
         required: true,
-        minlength: 5,
+        minlength: 3,
         maxlength: 30,
+        index:true,
         validate: {
             validator: function (value) {
                 return nameFormat.test(value)
@@ -41,6 +42,8 @@ const categorySchema = new Schema({
         ref: 'Shop'
     }
 })
+
+categorySchema.index({name:1})
 
 const Category = mongoose.model('Category', categorySchema)
 

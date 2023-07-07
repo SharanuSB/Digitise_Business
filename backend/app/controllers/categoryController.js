@@ -7,7 +7,6 @@ categoryController.create = async(req, res) => {
     try {
         const shopId = req.params.id
         const body = req.body
-        // console.log(body)
         const category = await Category.create({shopId:shopId, ...body})
         if(category) {
             res.json(category)
@@ -22,7 +21,6 @@ categoryController.create = async(req, res) => {
 categoryController.listAll = async(req, res)=>{
     try {
         const shopId = req.params.id
-        // console.log(shopId)
         const categories = await Category.find({shopId:shopId})
         if(categories){
             res.json(categories)

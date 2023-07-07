@@ -1,5 +1,5 @@
 import { startRegisterUserAccount } from "../../Redux/Actions/usersAction"
-import RegisterForm from "../Navbar/Register"
+import RegisterForm from "./Register"
 import { useDispatch } from "react-redux"
 
 const CustomerRegister = (props) => {
@@ -8,6 +8,7 @@ const CustomerRegister = (props) => {
 
     const submitForm = (formData) => {
         dispatch(startRegisterUserAccount(formData, props))
+        console.log(formData, "customer")
     }
 
     return (

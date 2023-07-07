@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const validator = require("validator")
 const nameFormat = /^[a-zA-Z ]*$/
+
 const Schema = mongoose.Schema
 
 const productSchema = new Schema({
@@ -18,6 +19,7 @@ const productSchema = new Schema({
                     error: `${value} is not a valid product name`
                 }
             }
+
         } 
     },
 
