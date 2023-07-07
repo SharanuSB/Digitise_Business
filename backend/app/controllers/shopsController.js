@@ -2,7 +2,7 @@ const Shop = require("../models/Shop")
 
 const shopsController = {}
 
-shopsController.list = async (req, res) => {
+shopsController.listAll = async (req, res) => {
     try {
         const shops = await Shop.find()
         if (shops) {
@@ -15,11 +15,25 @@ shopsController.list = async (req, res) => {
     }
 }
 
+shopsController.show = async(req, res)=>{
+    try {
+        const ownerId = req.user.id
+        const shop = await Shop.findOne({shopOwnerId:ownerId})
+        if(shop){
+            res.json(shop)
+        }else{
+            res.json({})
+        }
+    } catch (error) {
+        res.json(error)
+    }
+}
+
 shopsController.create = async (req, res) => {
     try {
         const body = req.body
         const id = req.user.id
-        const shopObj = await Shop.create({...body,shopOwnerId:id,website:`http://${body.name}/.com`})
+        const shopObj = await Shop.create({...body,shopOwnerId:id,website:`http://${body.name}.com`})
         if (shopObj) {
             res.json(shopObj)
         } else {
