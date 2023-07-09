@@ -2,6 +2,7 @@ import Axios from "../../config/Axios"
 
 export const SET_PRODUCTS = "SET_PRODUCTS"
 export const ADD_PRODUCTS = "ADD_PRODUCTS"
+export const CUSTOMER_PRODUCTS = "CUSTOMER_PRODUCTS"
 
 const setProducts = (data)=>{
     return {
@@ -13,6 +14,13 @@ const setProducts = (data)=>{
 const addProducts = (data)=>{
     return {
         type:ADD_PRODUCTS,
+        payload:data
+    }
+}
+
+const customerProducts = (data)=>{
+    return {
+        type:CUSTOMER_PRODUCTS,
         payload:data
     }
 }
@@ -53,6 +61,21 @@ export const startAddProducts = (formData, id)=>{
                     alert(error.message)
                 }
                 
+            }
+        )()
+    }
+}
+
+export const startGetCustomerProducts = (id)=>{
+    return (dispatch)=>{
+        (
+            async()=>{
+                try {
+                    const products = await Axios(`/api/products/listAll/${id}`, {headers:{"Auth":localStorage.getItem("token")}})
+                    dispatch(customerProducts(products.data))
+                } catch (error) {
+                    alert(error.message)
+                }
             }
         )()
     }

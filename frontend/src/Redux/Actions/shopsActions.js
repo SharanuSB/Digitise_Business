@@ -3,6 +3,7 @@ export const SET_SHOP = "SET_SHOP"
 export const CREATE_SHOP = "CREATE_SHOP"
 export const ALL_SHOPS = "ALL_SHOPS"
 export const VERIFY_SHOP = "VERIFY_SHOP"
+export const SEARCHED_SHOPS = "SEARCHED_SHOPS"
 
 const setShop = (data) => {
     return {
@@ -28,6 +29,13 @@ const setAllShops = (data)=>{
 const verifiedShop = (data)=>{
     return {
         type:VERIFY_SHOP,
+        payload:data
+    }
+}
+
+const setSearchedShops = (data)=>{
+    return {
+        type:SEARCHED_SHOPS,
         payload:data
     }
 }
@@ -124,6 +132,22 @@ export const startDeleteShop = (id)=>{
                 } catch (error) {
                     alert(error.message)
                 }
+            }
+        )()
+    }
+}
+
+export const startSearchShops = (text)=>{
+    return (dispatch)=>{
+        (
+            async()=>{
+                try {
+                    const shops = await Axios.get(`/api/search/shops?text=${text}`, {headers:{"Auth":localStorage.getItem("token")}})
+                    dispatch(setSearchedShops(shops.data))
+                } catch (error) {
+                    alert(error.message)
+                }
+                
             }
         )()
     }

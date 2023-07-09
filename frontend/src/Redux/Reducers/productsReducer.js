@@ -1,8 +1,9 @@
-import { ADD_PRODUCTS, SET_PRODUCTS } from "../Actions/productsAction"
+import { ADD_PRODUCTS, CUSTOMER_PRODUCTS, SET_PRODUCTS } from "../Actions/productsAction"
 
 
 const productsInitalState = {
-    data:[]
+    data:[],
+    customerData:[]
 }
 
 const productsReducer = (state = productsInitalState, action)=>{
@@ -12,6 +13,9 @@ const productsReducer = (state = productsInitalState, action)=>{
         }
         case ADD_PRODUCTS:{
             return {...state, data:[...state.data, action.payload]}
+        }
+        case CUSTOMER_PRODUCTS:{
+            return {...state, customerData:action.payload}
         }
         default :{
             return {...state}

@@ -1,42 +1,53 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { startSearchShops } from '../../Redux/Actions/shopsActions';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const HomeCustomer = () => {
+
+    const dispatch = useDispatch()
 
     const [searchTerm, setSearchTerm] = useState('');
     const searchInputRef = useRef(null);
 
     const handleSearch = (e) => {
-        e.preventDefault();
-        // Perform search functionality based on the search term
-        // Example: Call an API to fetch matching shops
-        console.log('Searching for:', searchTerm);
+        setSearchTerm(e.target.value)
+        dispatch(startSearchShops(e.target.value))
     };
 
-    // Focus on the search input when the component mounts
     useEffect(() => {
         searchInputRef.current.focus();
     }, []);
+
+    const shops = useSelector((state) => {
+        return state.shops.searchedShops
+    })
+
+    console.log(shops)
 
     return (
         <div className="row">
             <div className="col-md-8 offset-md-2">
                 <h1 className="text-center mb-4">Welcome to Digitize Business</h1>
                 <p className="text-center">Find and explore various shops near you.</p>
+                <div className="input-group">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search for shops..."
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        ref={searchInputRef}
+                    />
+                </div>
+                <ul className="list-group mt-4">
+                    {shops.map((shop) => (
+                        <li key={shop._id} className="text-center text-uppercase fs-4 list-group-item">
+                           <span className='fw-bold'> <Link to ={`/shopProducts/${shop._id}`}>{shop.name}</Link></span>
+                        </li>
+                    ))}
+                </ul>
 
-                <form onSubmit={handleSearch} className="mt-4">
-                    <div className="input-group">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Search for shops..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            ref={searchInputRef}
-                        />
-                    </div>
-                </form>
-
-                {/* Display other content, such as featured shops, categories, etc. */}
             </div>
         </div>
     )
