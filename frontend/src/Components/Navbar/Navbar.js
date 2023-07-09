@@ -2,12 +2,12 @@ import decode from "jwt-decode"
 import { Link, Route, withRouter } from "react-router-dom/cjs/react-router-dom.min"
 import Home from "./Home"
 import Login from "./Login"
-import Account from "./Account"
 import CustomerRegister from "./CustomerRegister"
 import OwnerRegister from "./OwnerRegister"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Shop from "../shopOwner/shop"
 import TotalShops from "../SuperAdmin/TotalShops"
+import ListProducts from "../Customers/ListProducts"
 
 const Navbar = (props) => {
 
@@ -56,11 +56,6 @@ const Navbar = (props) => {
                                     </li>
                                     {tokenData.role === 'customer' && (
                                         <>
-                                            <li className="nav-item">
-                                                <Link className="nav-link" to="/account">
-                                                    Account
-                                                </Link>
-                                            </li>
                                             <li className="nav-item">
                                                 <Link className="nav-link" to="/cart">
                                                     Cart
@@ -124,9 +119,9 @@ const Navbar = (props) => {
             <Route path="/userRegister" component={CustomerRegister} exact={true} />
             <Route path="/shopOwnerRegister" component={OwnerRegister} exact={true} />
             <Route path="/login" component={Login} exact={true} />
-            <Route path="/account" component={Account} exact={true} />
             <Route path="/shop" component={Shop} exact={true} />
             <Route path="/totalShops" component={TotalShops} exact={true} />
+            <Route path="/shopProducts/:id" component={ListProducts} exact={true} />
         </>
     )
 }
