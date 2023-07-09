@@ -10,9 +10,7 @@ const ListProducts = (props) => {
 
     const [modal, setModal] = useState(false)
 
-    const toggle = () => {
-        setModal(!modal)
-    }
+    const toggle = () => setModal(!modal)
 
     const dispatch = useDispatch()
 
@@ -20,38 +18,38 @@ const ListProducts = (props) => {
         dispatch(startGetProducts(shop._id))
     }, [])
 
-
     const products = useSelector((state) => {
         return state.products.data
     })
-    console.log(products)
 
-    const handleAdd = () => {
-        toggle()
-    }
-    console.log(modal, "toggle")
-
+    const handleAdd = () => toggle()
 
     return (
-        <div>
+        <div className="container">
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Add New Products Here ....</ModalHeader>
                 <ModalBody>
-                    <AddProducts shop={shop} toggle = {toggle}/>
+                    <AddProducts shop={shop} toggle={toggle} />
                 </ModalBody>
             </Modal>
-            <button onClick={handleAdd} className="btn btn-success p-2 my-2">Add Products</button>
+            <button onClick={handleAdd} className="btn btn-secondary btn-sm p-1 my-1">Add Products</button>
 
-            <div className="container row">
+            <div className="container row my-2">
                 {
                     products.map(product => {
-                        return <div key={product._id} className="col-md-3">
-                            <div className="card">
-                                <blockquote>Name - {product.name}</blockquote>
-                                <blockquote>Price - {product.price}</blockquote>
-                                <div className="gap-2">
-                                    <button>Edit</button>
-                                    <button>Delete</button>
+                        return <div key={product._id} className="col-md-3 my-2">
+                            <div className="card p-2 shadow">
+                                <blockquote className="text-uppercase fs-3"><span className="fw-bold">Name</span> : {product.name}</blockquote>
+                                <blockquote className="text-uppercase fs-3"><span className="fw-bold">Price</span> : {product.price}</blockquote>
+                                <div className="p-2">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <button className="btn-sm btn btn-outline-warning">Edit</button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button className="btn btn-sm btn-outline-danger">Delete</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

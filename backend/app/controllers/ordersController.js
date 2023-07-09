@@ -1,13 +1,14 @@
 const Cart = require('../models/Cart')
 const Order = require('../models/Order')
 const Product = require('../models/Product')
+const Shop = require('../models/Shop')
 
 const ordersController = {}
 
 ordersController.list = async (req, res) => {
     try {
         const customerId = req.user.id
-        const order = await Order.findOne({customerId: customerId})
+        const order = await Order.find({customerId: customerId})
         if(order) {
             res.json(order)
         } else {
@@ -56,6 +57,20 @@ ordersController.delete = async(req, res) => {
         const orderId = req.params.id
         const deleteOrder = await Order.findByIdAndDelete(orderId)
         res.json(deleteOrder)
+    } catch (error) {
+        res.json(error)
+    }
+}
+
+ordersController.listByShop = async(req, res)=>{
+    try {
+        const shopId = req.params.id
+        const orders = await Order.find({shopId:shopId})
+        if(orders){
+            res.json(orders)
+        }else{
+            res.json([])
+        }
     } catch (error) {
         res.json(error)
     }

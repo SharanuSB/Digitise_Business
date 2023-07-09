@@ -19,7 +19,7 @@ const Shop = (props) => {
     return (
         <div>
             {
-                !shop._id ?
+                !shop?._id ?
                     <div className="container ">
                         <div className="row">
                             <div className="col-md-6 card shadow">
