@@ -59,9 +59,14 @@ router.put("/api/shops/:id", userAuthentication, (req,res, next)=>{
 },authorizeUser,authorizeOwner, shopsController.update)
 
 router.delete("/api/shops/:id", userAuthentication, (req,res, next)=>{
-    req.permittedRoles = ["shopOwner"]
+    req.permittedRoles = ["superAdmin"]
     next()
-},authorizeUser,authorizeOwner, shopsController.destroy)
+},authorizeUser, shopsController.destroy)
+
+router.put("/api/verify/shop/:id", userAuthentication, (req,res,next)=>{
+    req.permittedRoles = ["superAdmin"]
+    next()
+},authorizeUser, shopsController.verify)
 
 
 /// Api's for Products Model --------
@@ -82,6 +87,8 @@ router.delete("/api/products/destroy/:id" ,userAuthentication, (req,res, next)=>
     req.permittedRoles = ["shopOwner"]
     next()
 },authorizeUser,authorizeOwner, productsController.destroy)
+
+router.put("/api/products/reviews/:id", userAuthentication, productsController.addReviews)
 
 
 /// Api's for Carts Model --------

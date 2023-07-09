@@ -38,9 +38,11 @@ const AddProducts = (props) => {
                     </div>
                 </div>
             </form>
-            <ProductForm submitForm={submitForm} shop={shop} />
+            {
+                shop && <ProductForm submitForm={submitForm} shop={shop} />
+            }
+           
         </div>
     )
 }
-
 export default AddProducts

@@ -1,4 +1,5 @@
 import axios from "../../config/Axios"
+import Swal from "sweetalert2"
 
 export const startRegisterUserAccount = (formData, props) => {
 
@@ -29,9 +30,24 @@ export const startLoginUser = (formData, props) => {
                 try {
                     const user = await axios.post("/api/users/login", formData)
                     if (user.data?.error) {
-                        alert(user.data.error)
+                        Swal.fire(`${user.data.error}`)
                     } else {
-                        alert("Successfully Logged in")
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                              toast.addEventListener('mouseenter', Swal.stopTimer)
+                              toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                          })
+                          
+                          Toast.fire({
+                            icon: 'success',
+                            title: 'Signed in successfully'
+                          })
                         localStorage.setItem("token", user.data.token)
                         props.history.push("/")
                     }

@@ -44,6 +44,7 @@ export const startAddProducts = (formData, id)=>{
                     console.log(product.data)
                     if(!product.data.errors){
                         dispatch(addProducts(product.data))
+                        console.log(product.data)
                         alert(`${product.data.name} added successfully`)
                     }else{
                         alert(product.data.errors.price?.message)

@@ -64,11 +64,24 @@ shopsController.update = async (req, res) => {
 shopsController.destroy = async (req, res) => {
     try {
         const id = req.params.id
-        const ownerId = req.user.id
-        const shop = await Shop.findOneAndDelete({ _id: id, shopOwnerId: ownerId })
+        const shop = await Shop.findOneAndDelete({ _id: id})
         if (shop) {
             res.json(shop)
         } else {
+            res.json({})
+        }
+    } catch (error) {
+        res.json(error)
+    }
+}
+
+shopsController.verify = async(req, res)=>{
+    try {
+        const id = req.params.id
+        const shop = await Shop.findOneAndUpdate({_id:id}, {isVerified:true}, {new:true, runValidators:true})
+        if(shop){
+            res.json(shop)
+        }else{
             res.json({})
         }
     } catch (error) {

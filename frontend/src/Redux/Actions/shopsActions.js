@@ -1,6 +1,8 @@
 import Axios from "../../config/Axios"
 export const SET_SHOP = "SET_SHOP"
 export const CREATE_SHOP = "CREATE_SHOP"
+export const ALL_SHOPS = "ALL_SHOPS"
+export const VERIFY_SHOP = "VERIFY_SHOP"
 
 const setShop = (data) => {
     return {
@@ -16,6 +18,19 @@ const setCreateShop = (data) => {
     }
 }
 
+const setAllShops = (data)=>{
+    return {
+        type:ALL_SHOPS,
+        payload:data
+    }
+}
+
+const verifiedShop = (data)=>{
+    return {
+        type:VERIFY_SHOP,
+        payload:data
+    }
+}
 
 export const startGetShopDetails = () => {
 
@@ -49,6 +64,63 @@ export const startCreateShop = (formData) => {
                         }
                     })
                     dispatch(setCreateShop(shop.data))
+                } catch (error) {
+                    alert(error.message)
+                }
+            }
+        )()
+    }
+}
+
+export const startGetAllShops = ()=>{
+
+    return (dispatch)=>{
+        (
+            async()=>{
+                try {
+                    const shops = await Axios.get("/api/shops/listAll", {headers:{
+                        "Auth":localStorage.getItem("token")
+                    }})
+                    if(shops){
+                        dispatch(setAllShops(shops.data))
+                    }
+                } catch (error) {
+                    alert(error.message)
+                }
+               
+            }
+        )()
+    }
+}
+
+export const startVerifyShop = (id)=>{
+    return (dispatch)=>{
+        (
+            async()=>{
+                try {
+                    const shop = await Axios.put(`/api/verify/shop/${id}`, {}, {headers:{"Auth":localStorage.getItem("token")}})
+                    if(!shop.data.error){
+                        dispatch(verifiedShop(shop.data))
+                    }
+                } catch (error) {
+                    alert(error.message)
+                }
+            }
+        )()
+    }
+}
+
+export const startDeleteShop = (id)=>{
+    return (dispatch)=>{
+        (   
+            async()=>{
+                try {
+                    const shop = await Axios.delete(`/api/shops/${id}`, {headers:{"Auth":localStorage.getItem("token")}})
+                    if(!shop.data.error){
+                        dispatch(verifiedShop(shop.data))
+                    }else{
+                       alert(shop.data.error)
+                    }
                 } catch (error) {
                     alert(error.message)
                 }

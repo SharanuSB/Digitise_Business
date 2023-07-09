@@ -60,7 +60,28 @@ const productSchema = new Schema({
     isAvailable:{
         type:Boolean,
         default:true
-    }
+    },
+
+    reviews:[
+        {
+            star:{
+                type:Number,
+                min:1,
+                max:5,
+                required:true
+            },
+            body:{
+                type:String,
+                required:true,
+                maxlength:200,
+                minlength:4
+            },
+            customerId:{
+                type:Schema.Types.ObjectId,
+                ref:"User",
+            }
+        }
+    ]
 })
 
 const Product = mongoose.model("Product", productSchema)

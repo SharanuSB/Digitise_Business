@@ -3,13 +3,13 @@ const Product = require("../models/Product")
 
 const productsController = {}
 
-productsController.listAll = async(req, res)=>{
+productsController.listAll = async (req, res) => {
     try {
         const shopId = req.params.id
-        const products = await Product.find({shopId:shopId})
-        if(products){
+        const products = await Product.find({ shopId: shopId })
+        if (products) {
             res.json(products)
-        }else{
+        } else {
             res.json([])
         }
     } catch (error) {
@@ -17,16 +17,16 @@ productsController.listAll = async(req, res)=>{
     }
 }
 
-productsController.create = async(req, res)=>{
+productsController.create = async (req, res) => {
     try {
         const body = req.body
         const shopId = req.params.id
         const categoryId = req.query.categoryId
-        const product = await Product.create({...body, shopId:shopId, categoryId:categoryId})
-     
-        if(product){
-           res.json(product)
-        }else{
+        const product = await Product.create({ ...body, shopId: shopId, categoryId: categoryId })
+
+        if (product) {
+            res.json(product)
+        } else {
             res.json({})
         }
     } catch (error) {
@@ -34,14 +34,14 @@ productsController.create = async(req, res)=>{
     }
 }
 
-productsController.update = async(req, res)=>{
+productsController.update = async (req, res) => {
     try {
         const body = req.body
         const productId = req.query.id
-        const product = await Product.findOneAndUpdate({_id:productId}, body, {new:true, runValidators:true})
-        if(product){
+        const product = await Product.findOneAndUpdate({ _id: productId }, body, { new: true, runValidators: true })
+        if (product) {
             res.json(product)
-        }else{
+        } else {
             res.json({})
         }
     } catch (error) {
@@ -49,15 +49,43 @@ productsController.update = async(req, res)=>{
     }
 }
 
-productsController.destroy = async(req, res)=>{
+productsController.destroy = async (req, res) => {
     try {
         const id = req.query.id
         const product = await Product.findByIdAndDelete(id)
-        if(product){
+        if (product) {
             res.json(product)
-        }else{
+        } else {
             res.json({})
         }
+    } catch (error) {
+        res.json(error)
+    }
+}
+
+
+productsController.addReviews = async (req, res) => {
+    try {
+        const userId = req.user.id
+        const body = req.body
+        const productId = req.params.id
+
+        const isReview = await Product.findOne({ _id: productId, "reviews.customerId": userId })
+        let review
+        if (!isReview) {
+            review = await Product.findByIdAndUpdate({ _id: productId }, { $push: { reviews: { ...body, customerId: userId } } },
+                { new: true, runValidators: true })
+            if (review) {
+                res.json(review)
+            } else {
+                res.json({})
+            }
+        } else {
+            res.json(
+                { error: "You can review the product once" }
+            )
+        }
+
     } catch (error) {
         res.json(error)
     }
