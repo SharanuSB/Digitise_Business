@@ -1,12 +1,21 @@
-
 const Product = require("../models/Product")
+const Shop = require("../models/Shop")
+const multer = require("multer")
 
 const productsController = {}
 
 productsController.listAll = async (req, res) => {
     try {
-        const shopId = req.params.id
-        const products = await Product.find({ shopId: shopId })
+        const role = req.user.role
+        let products
+        if (role === "customer") {
+            const shopName = req.params.id
+            const shop = await Shop.findOne({ name: { $regex: shopName, $options: "i" } })
+            products = await Product.find({ shopId: shop._id })
+        } else if (role === "shopOwner") {
+            const shopId = req.params.id
+            products = await Product.find({shopId:shopId})
+        }
         if (products) {
             res.json(products)
         } else {
@@ -86,6 +95,21 @@ productsController.addReviews = async (req, res) => {
             )
         }
 
+    } catch (error) {
+        res.json(error)
+    }
+}
+
+productsController.addImage = async(req, res)=>{
+    try {
+        const productId = req.params.id
+        const file = req.file
+        const product = await Product.findOneAndUpdate({_id:productId}, {image:file.filename}, {new:true, runValidators:true})
+        if(product){
+            res.json(product)
+        }else{
+            res.json({})
+        }
     } catch (error) {
         res.json(error)
     }

@@ -71,8 +71,23 @@ export const startGetCustomerProducts = (id)=>{
         (
             async()=>{
                 try {
-                    const products = await Axios(`/api/products/listAll/${id}`, {headers:{"Auth":localStorage.getItem("token")}})
+                    const products = await Axios.get(`/api/products/listAll/${id}`, {headers:{"Auth":localStorage.getItem("token")}})
                     dispatch(customerProducts(products.data))
+                } catch (error) {
+                    alert(error.message)
+                }
+            }
+        )()
+    }
+}
+
+export const startAddProductImage = (id, formData)=>{
+    return (dispatch)=>{
+        (
+            async()=>{
+                try {
+                    const product = await Axios.post(`/api/products/addImage/${id}`, formData, {headers:{"Auth":localStorage.getItem("token")}})
+                    console.log(product.data)
                 } catch (error) {
                     alert(error.message)
                 }

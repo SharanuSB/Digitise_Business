@@ -1,7 +1,7 @@
 import decode from "jwt-decode"
-import HomePageSuperAdmin from '../SuperAdmin/HomePageSuperAdmin';
 import HomePageShopOwner from '../shopOwner/HomePageShopOwner';
 import HomeCustomer from "../Customers/HomeCustomer";
+import HomePageSuperAdmin from "../SuperAdmin/HomePageSuperAdmin";
 
 const HomePage = () => {
     const token = localStorage.getItem("token")
@@ -15,16 +15,14 @@ const HomePage = () => {
     return (
         <div className="container">
             {
-                tokenData.role === "customer" && <HomeCustomer/>
+                tokenData?.role === "customer" && <HomeCustomer/>
             }
             {
-                tokenData.role === "superAdmin" && <HomePageSuperAdmin/>
+                tokenData?.role === "superAdmin" && <HomePageSuperAdmin/>
             }
-
             {
-                 tokenData.role === "shopOwner" && <HomePageShopOwner/>
+                 tokenData?.role === "shopOwner" && <HomePageShopOwner/>
             }
-
         </div>
     );
 };

@@ -142,8 +142,13 @@ export const startSearchShops = (text)=>{
         (
             async()=>{
                 try {
-                    const shops = await Axios.get(`/api/search/shops?text=${text}`, {headers:{"Auth":localStorage.getItem("token")}})
-                    dispatch(setSearchedShops(shops.data))
+                    if(text!=="clearSearchedShops"){
+                        const shops = await Axios.get(`/api/search/shops?text=${text}`, {headers:{"Auth":localStorage.getItem("token")}})
+                        dispatch(setSearchedShops(shops.data))
+                    }else{
+                        dispatch(setSearchedShops([]))
+                    }
+                   
                 } catch (error) {
                     alert(error.message)
                 }
