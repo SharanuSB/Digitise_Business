@@ -10,6 +10,8 @@ const authorizeOwner = require("../app/middlewares/authorizeOwner")
 const cartsController = require("../app/controllers/cartController")
 const ordersController = require("../app/controllers/ordersController")
 
+const multer = require("multer")
+const upload = multer({ dest: "uploads/" })
 
 const router = express.Router()
 
@@ -91,6 +93,8 @@ router.delete("/api/products/destroy/:id", userAuthentication, (req, res, next) 
 }, authorizeUser, authorizeOwner, productsController.destroy)
 
 router.put("/api/products/reviews/:id", userAuthentication, productsController.addReviews)
+
+router.post("/api/products/addImage/:id", userAuthentication, upload.single("image"), productsController.addImage)
 
 
 /// Api's for Carts Model --------

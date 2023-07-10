@@ -30,17 +30,7 @@ const productSchema = new Schema({
     },
 
     image:{
-        type:String,
-        validate: {
-            validator: function (value) {
-                return validator.isURL(value)
-            },
-            message: function (value) {
-                return {
-                    error: `${value} is not a valid url`
-                }
-            }
-        },
+        type:String
     },
 
     Description:{

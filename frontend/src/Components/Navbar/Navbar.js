@@ -1,6 +1,5 @@
 import decode from "jwt-decode"
 import { Link, Route, withRouter } from "react-router-dom/cjs/react-router-dom.min"
-import Home from "./Home"
 import Login from "./Login"
 import CustomerRegister from "./CustomerRegister"
 import OwnerRegister from "./OwnerRegister"
@@ -8,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Shop from "../shopOwner/shop"
 import TotalShops from "../SuperAdmin/TotalShops"
 import ListProducts from "../Customers/ListProducts"
+import HomePage from "./Home"
+import Cart from "../Customers/Shop"
 
 const Navbar = (props) => {
 
@@ -115,15 +116,16 @@ const Navbar = (props) => {
             </nav>
 
 
-            <Route path="/" component={Home} exact={true} />
+            <Route path="/" component={HomePage} exact={true} />
             <Route path="/userRegister" component={CustomerRegister} exact={true} />
             <Route path="/shopOwnerRegister" component={OwnerRegister} exact={true} />
             <Route path="/login" component={Login} exact={true} />
             <Route path="/shop" component={Shop} exact={true} />
             <Route path="/totalShops" component={TotalShops} exact={true} />
-            <Route path="/shopProducts/:id" component={ListProducts} exact={true} />
+            <Route path="/:id/products" component={ListProducts} exact={true} />
+            <Route path="/cart" component={Cart} exact={true} />
         </>
     )
-}
+} 
 
 export default withRouter(Navbar)

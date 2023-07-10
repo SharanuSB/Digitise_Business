@@ -17,13 +17,15 @@ const HomeCustomer = () => {
 
     useEffect(() => {
         searchInputRef.current.focus();
+
+        return ()=>{
+            dispatch(startSearchShops("clearSearchedShops"))
+        }
     }, []);
 
     const shops = useSelector((state) => {
         return state.shops.searchedShops
     })
-
-    console.log(shops)
 
     return (
         <div className="row">
@@ -43,7 +45,7 @@ const HomeCustomer = () => {
                 <ul className="list-group mt-4">
                     {shops.map((shop) => (
                         <li key={shop._id} className="text-center text-uppercase fs-4 list-group-item">
-                           <span className='fw-bold'> <Link to ={`/shopProducts/${shop._id}`}>{shop.name}</Link></span>
+                           <span className='fw-bold'> <Link to ={`/${shop.name.toLowerCase()}/products`}>{shop.name}</Link></span>
                         </li>
                     ))}
                 </ul>
