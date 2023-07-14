@@ -3,6 +3,7 @@ import Axios from "../../config/Axios"
 export const SET_PRODUCTS = "SET_PRODUCTS"
 export const ADD_PRODUCTS = "ADD_PRODUCTS"
 export const CUSTOMER_PRODUCTS = "CUSTOMER_PRODUCTS"
+export const ADD_IMAGE = "ADD_IMAGE"
 
 const setProducts = (data)=>{
     return {
@@ -21,6 +22,13 @@ const addProducts = (data)=>{
 const customerProducts = (data)=>{
     return {
         type:CUSTOMER_PRODUCTS,
+        payload:data
+    }
+}
+
+const setImage = (data)=>{
+    return {
+        type:ADD_IMAGE,
         payload:data
     }
 }
@@ -87,7 +95,8 @@ export const startAddProductImage = (id, formData)=>{
             async()=>{
                 try {
                     const product = await Axios.post(`/api/products/addImage/${id}`, formData, {headers:{"Auth":localStorage.getItem("token")}})
-                    console.log(product.data)
+                    console.log(product.data, "hi")
+                   dispatch(setImage(product.data))
                 } catch (error) {
                     alert(error.message)
                 }

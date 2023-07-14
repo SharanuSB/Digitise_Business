@@ -19,24 +19,24 @@ const setCreateShop = (data) => {
     }
 }
 
-const setAllShops = (data)=>{
+const setAllShops = (data) => {
     return {
-        type:ALL_SHOPS,
-        payload:data
+        type: ALL_SHOPS,
+        payload: data
     }
 }
 
-const verifiedShop = (data)=>{
+const verifiedShop = (data) => {
     return {
-        type:VERIFY_SHOP,
-        payload:data
+        type: VERIFY_SHOP,
+        payload: data
     }
 }
 
-const setSearchedShops = (data)=>{
+const setSearchedShops = (data) => {
     return {
-        type:SEARCHED_SHOPS,
-        payload:data
+        type: SEARCHED_SHOPS,
+        payload: data
     }
 }
 
@@ -80,34 +80,36 @@ export const startCreateShop = (formData) => {
     }
 }
 
-export const startGetAllShops = ()=>{
+export const startGetAllShops = () => {
 
-    return (dispatch)=>{
+    return (dispatch) => {
         (
-            async()=>{
+            async () => {
                 try {
-                    const shops = await Axios.get("/api/shops/listAll", {headers:{
-                        "Auth":localStorage.getItem("token")
-                    }})
-                    if(shops){
+                    const shops = await Axios.get("/api/shops/listAll", {
+                        headers: {
+                            "Auth": localStorage.getItem("token")
+                        }
+                    })
+                    if (shops) {
                         dispatch(setAllShops(shops.data))
                     }
                 } catch (error) {
                     alert(error.message)
                 }
-               
+
             }
         )()
     }
 }
 
-export const startVerifyShop = (id)=>{
-    return (dispatch)=>{
+export const startVerifyShop = (id) => {
+    return (dispatch) => {
         (
-            async()=>{
+            async () => {
                 try {
-                    const shop = await Axios.put(`/api/verify/shop/${id}`, {}, {headers:{"Auth":localStorage.getItem("token")}})
-                    if(!shop.data.error){
+                    const shop = await Axios.put(`/api/verify/shop/${id}`, {}, { headers: { "Auth": localStorage.getItem("token") } })
+                    if (!shop.data.error) {
                         dispatch(verifiedShop(shop.data))
                     }
                 } catch (error) {
@@ -118,16 +120,16 @@ export const startVerifyShop = (id)=>{
     }
 }
 
-export const startDeleteShop = (id)=>{
-    return (dispatch)=>{
-        (   
-            async()=>{
+export const startDeleteShop = (id) => {
+    return (dispatch) => {
+        (
+            async () => {
                 try {
-                    const shop = await Axios.delete(`/api/shops/${id}`, {headers:{"Auth":localStorage.getItem("token")}})
-                    if(!shop.data.error){
+                    const shop = await Axios.delete(`/api/shops/${id}`, { headers: { "Auth": localStorage.getItem("token") } })
+                    if (!shop.data.error) {
                         dispatch(verifiedShop(shop.data))
-                    }else{
-                       alert(shop.data.error)
+                    } else {
+                        alert(shop.data.error)
                     }
                 } catch (error) {
                     alert(error.message)
@@ -137,23 +139,25 @@ export const startDeleteShop = (id)=>{
     }
 }
 
-export const startSearchShops = (text)=>{
-    return (dispatch)=>{
+export const startSearchShops = (text) => {
+    return (dispatch) => {
         (
-            async()=>{
+            async () => {
                 try {
-                    if(text!=="clearSearchedShops"){
-                        const shops = await Axios.get(`/api/search/shops?text=${text}`, {headers:{"Auth":localStorage.getItem("token")}})
-                        dispatch(setSearchedShops(shops.data))
-                    }else{
-                        dispatch(setSearchedShops([]))
-                    }
-                   
-                } catch (error) {
+                    const shops = await Axios.get(`/api/search/shops?text=${text}`, { headers: { "Auth": localStorage.getItem("token") } })
+                    dispatch(setSearchedShops(shops.data))
+               } catch (error) {
                     alert(error.message)
                 }
-                
+
             }
         )()
+    }
+}
+
+export const clearSearchedShops = (data)=>{
+    return {
+        type:SEARCHED_SHOPS,
+        payload:data
     }
 }

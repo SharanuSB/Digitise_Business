@@ -1,6 +1,7 @@
 const Product = require("../models/Product")
 const Shop = require("../models/Shop")
 const multer = require("multer")
+const removebg = require("remove.bg")
 
 const productsController = {}
 
@@ -14,7 +15,7 @@ productsController.listAll = async (req, res) => {
             products = await Product.find({ shopId: shop._id })
         } else if (role === "shopOwner") {
             const shopId = req.params.id
-            products = await Product.find({shopId:shopId})
+            products = await Product.find({ shopId: shopId })
         }
         if (products) {
             res.json(products)
@@ -100,14 +101,14 @@ productsController.addReviews = async (req, res) => {
     }
 }
 
-productsController.addImage = async(req, res)=>{
+productsController.addImage = async (req, res) => {
     try {
         const productId = req.params.id
-        const file = req.file
-        const product = await Product.findOneAndUpdate({_id:productId}, {image:file.filename}, {new:true, runValidators:true})
-        if(product){
+        const image = req.file.path
+        const product = await Product.findByIdAndUpdate(productId, { $push: { image: image } }, { new: true, runValidators: true })
+        if (product) {
             res.json(product)
-        }else{
+        } else {
             res.json({})
         }
     } catch (error) {

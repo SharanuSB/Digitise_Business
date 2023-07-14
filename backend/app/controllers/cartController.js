@@ -31,14 +31,13 @@ cartsController.addProducts = async (req, res) => {
             if (isProduct) {
                 cartItem = await Cart.updateOne({ _id: cart._id, "cartItems.productId": productId }, { $inc: { "cartItems.$.quantity": 1 } }, { new: true, runValidators: true })
             } else {
-                cartItem = await Cart.findOneAndUpdate({ customerId: customerId }, { $push: { cartItems: { productId: productId, quantity: +1 } } }, { new: true, runValidators: true })
+                cartItem = await Cart.findOneAndUpdate({ customerId: customerId }, { $push: { cartItems: { productId: productId, quantity: +1, shopId: shopId } } }, { new: true, runValidators: true })
             }
         } else {
-            cartItem = await Cart.create({ customerId: customerId, shopId: shopId, cartItems: [{ productId: productId, quantity: 1 }] })
+            cartItem = await Cart.create({ customerId: customerId, cartItems: [{ productId: productId, quantity: 1, shopId: shopId }] })
         }
 
-        res.json(cartItem)
-
+            res.json(cartItem)
     } catch (error) {
         res.json(error)
     }

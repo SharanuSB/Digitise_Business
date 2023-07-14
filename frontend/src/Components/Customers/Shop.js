@@ -14,7 +14,6 @@ const Cart = (props)=>{
         return state.carts.data
     })
 
-
     return (
         <div>
             {
@@ -24,7 +23,7 @@ const Cart = (props)=>{
                    <p>Add the Products</p>
                 </div>:
                 <div>
-                    cartItems here
+                    
                 </div>
             }  
         </div>

@@ -80,7 +80,7 @@ router.get("/api/products/listAll/:id", userAuthentication, productsController.l
 router.post("/api/products/create/:id", userAuthentication, (req, res, next) => {
     req.permittedRoles = ["shopOwner"]
     next()
-}, authorizeUser, authorizeOwner, productsController.create)
+}, authorizeUser, authorizeOwner,upload.single("image"), productsController.create)
 
 router.put("/api/products/update/:id", userAuthentication, (req, res, next) => {
     req.permittedRoles = ["shopOwner"]

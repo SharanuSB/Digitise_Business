@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.lightbox-container {
+  width: 500px; /* Set the desired width */
+  height: 500px; /* Set the desired height */
+  margin: 0 auto;
+}

@@ -6,10 +6,6 @@ const cartSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    shopId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Shop'
-    },
     cartItems: [{
         productId: {
             type: Schema.Types.ObjectId,
@@ -18,6 +14,10 @@ const cartSchema = new Schema({
         quantity: {
             type: Number,
             default: 0
+        },
+        shopId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Shop'
         }
     }]
 })
