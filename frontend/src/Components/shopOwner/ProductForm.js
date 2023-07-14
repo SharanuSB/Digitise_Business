@@ -45,6 +45,7 @@ const ProductForm = (props) => {
                     required
                 /><br />
 
+
                 <label htmlFor="pass" className="form-label" >Price <sup style={{ color: "red" }}>*</sup></label><br />
                 <input type="text"
                     className="form-control"

@@ -1,4 +1,4 @@
-import { ADD_PRODUCTS, CUSTOMER_PRODUCTS, SET_PRODUCTS } from "../Actions/productsAction"
+import { ADD_IMAGE, ADD_PRODUCTS, CUSTOMER_PRODUCTS, SET_PRODUCTS } from "../Actions/productsAction"
 
 
 const productsInitalState = {
@@ -16,6 +16,15 @@ const productsReducer = (state = productsInitalState, action)=>{
         }
         case CUSTOMER_PRODUCTS:{
             return {...state, customerData:action.payload}
+        }
+        case ADD_IMAGE:{
+            return {...state, data:state.data.map(ele=>{
+                if(ele._id===action.payload._id){
+                    return {...action.payload}
+                }else{
+                    return {...ele}
+                }
+            })}
         }
         default :{
             return {...state}

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { startSearchShops } from '../../Redux/Actions/shopsActions';
+import { clearSearchedShops, startSearchShops } from '../../Redux/Actions/shopsActions';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const HomeCustomer = () => {
@@ -19,7 +19,7 @@ const HomeCustomer = () => {
         searchInputRef.current.focus();
 
         return ()=>{
-            dispatch(startSearchShops("clearSearchedShops"))
+            dispatch(clearSearchedShops([]))
         }
     }, []);
 
