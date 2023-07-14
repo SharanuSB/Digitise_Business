@@ -1,7 +1,7 @@
 import { ADD_PRODUCTS_CART, SET_CART } from "../Actions/cartsAction"
 
 const cartsInitalState = {
-    data:[]
+    data:{}
 }
 
 const cartReducer = (state = cartsInitalState, action)=>{

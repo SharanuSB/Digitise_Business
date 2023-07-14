@@ -1,12 +1,11 @@
-const Cart = require('../models/Cart')
+const Cart = require("../models/Cart")
 
 const cartsController = {}
 
-
 cartsController.show = async (req, res) => {
     try {
-        const customerId = req.user.id
-        const cart = await Cart.find({ customerId: customerId })
+        const customerId = req.user.id;
+        const cart = await Cart.findOne({ customerId: customerId }).populate("cartItems.productId")
         if (cart) {
             res.json(cart)
         } else {
@@ -15,7 +14,8 @@ cartsController.show = async (req, res) => {
     } catch (error) {
         res.json(error)
     }
-}
+};
+
 
 cartsController.addProducts = async (req, res) => {
     try {
@@ -25,23 +25,37 @@ cartsController.addProducts = async (req, res) => {
 
         const cart = await Cart.findOne({ customerId: customerId })
 
-        let cartItem
         if (cart) {
             const isProduct = cart.cartItems.find(ele => ele.productId.valueOf() === productId)
             if (isProduct) {
-                cartItem = await Cart.updateOne({ _id: cart._id, "cartItems.productId": productId }, { $inc: { "cartItems.$.quantity": 1 } }, { new: true, runValidators: true })
+                await Cart.updateOne(
+                    { _id: cart._id, "cartItems.productId": productId },
+                    { $inc: { "cartItems.$.quantity": 1 } },
+                    { new: true, runValidators: true }
+                )
             } else {
-                cartItem = await Cart.findOneAndUpdate({ customerId: customerId }, { $push: { cartItems: { productId: productId, quantity: +1, shopId: shopId } } }, { new: true, runValidators: true })
+                await Cart.findOneAndUpdate(
+                    { customerId: customerId },
+                    { $push: { cartItems: { productId: productId, quantity: +1, shopId: shopId } } },
+                    { new: true, runValidators: true }
+                )
             }
         } else {
-            cartItem = await Cart.create({ customerId: customerId, cartItems: [{ productId: productId, quantity: 1, shopId: shopId }] })
+            await Cart.create({
+                customerId: customerId,
+                cartItems: [{ productId: productId, quantity: 1, shopId: shopId }],
+            })
         }
 
-            res.json(cartItem)
+        const updatedCart = await Cart.findOne({ customerId: customerId }).populate("cartItems.productId")
+        res.json(updatedCart)
+
     } catch (error) {
-        res.json(error)
+        res.status(500).json({ error: "Internal Server Error" })
     }
 }
+
+
 
 cartsController.removeProduct = async (req, res) => {
     try {
