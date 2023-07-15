@@ -87,11 +87,10 @@ export const startRemoveProductFromCart = (id)=>{
             async()=>{
                 try {
                     const product = await Axios.put(`/api/carts/removeProducts/${id}`, {}, {headers:{"Auth":localStorage.getItem("token")}})
-                    console.log(product.data)
+                    dispatch(setCart(product.data))
                 } catch (error) {
                     alert(error.message)
                 }   
-               
             }
         )()
     }
