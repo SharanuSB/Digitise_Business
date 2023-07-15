@@ -1,9 +1,50 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
+import { startDecProductQuantity, startIncProductQuantity, startRemoveProductFromCart } from "../../Redux/Actions/cartsAction";
+import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2"
 
 const CartProducts = (props) => {
 
     const { cart } = props
+
+    const dispatch = useDispatch()
+
+    const handleDecCartQuantity = (id, qty)=>{
+        if(qty>1){
+            dispatch(startDecProductQuantity(id))
+        } 
+    }
+
+    const handleIncCartQuantity = (id, qty) =>{
+        if(qty<5){
+            dispatch(startIncProductQuantity(id))
+        }else{
+            Swal.fire('Maximum Quatity for this product Reached')
+        }
+    }
+
+    const handleRemoveFromCart = (id)=>{
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Remove it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(
+                'Removed!',
+                'Your Product has been removed.',
+                'success'
+              )
+              dispatch(startRemoveProductFromCart(id))
+            }
+          })
+        
+    }
 
     return (
         <div>
@@ -30,12 +71,13 @@ const CartProducts = (props) => {
                             <h5 className="card-subtitle mb-2 text-muted">Price: {item?.productId?.price}</h5>
                             <p className="card-text">Qty: {item?.quantity}</p>
                             <div className="d-flex align-items-center">
-                                <button className="btn btn-secondary ">-</button>
+                                <button className="btn btn-secondary " onClick={()=>{handleDecCartQuantity(item.productId._id, item?.quantity)}}>-</button>
                                 <span className="mx-3">{item?.quantity}</span>
-                                <button className="btn btn-secondary ">+</button>
+                                <button className="btn btn-secondary " onClick={()=>{(handleIncCartQuantity(item.productId._id,item?.quantity ))}}>+</button>
                             </div>
                             <div className="p-2">
                                 <h4 className="fw-bold">Product Total: <span className="text-success"> {item.quantity * item?.productId?.price}</span></h4>
+                                <button className="btn btn-outline-warning btn-sm" onClick={()=>{handleRemoveFromCart(item.productId._id)}}>Remove</button>
                             </div>
                         </div>
                     </div>

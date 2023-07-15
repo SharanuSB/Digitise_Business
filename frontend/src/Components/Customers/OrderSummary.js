@@ -15,7 +15,7 @@ const OrderSummary = (props) => {
                     <h4 className="mb-3">Order Summary</h4>
                     {cart?.cartItems?.map(item => (
                         <div key={item._id} className="d-flex justify-content-between align-items-center">
-                            <span>{item?.productId?.name}</span>
+                            <span>{item?.productId?.name}({item.quantity})</span>
                             <span>Rs. {item.quantity * item?.productId?.price}</span>
                         </div>
                     ))}

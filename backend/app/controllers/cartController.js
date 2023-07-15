@@ -57,25 +57,30 @@ cartsController.addProducts = async (req, res) => {
 
 
 
+cartsController.decreaseQuantity = async (req, res) => {
+    try {
+        const productId = req.params.productId
+        const customerId = req.user.id
+
+        const cart = await Cart.findOneAndUpdate({ customerId:customerId, "cartItems.productId": productId }, { $inc: { "cartItems.$.quantity": -1 } }, { new: true, runValidators: true })
+
+        const updatedCart = await Cart.findOne({ customerId: customerId }).populate("cartItems.productId")
+        res.json(updatedCart)
+
+    } catch (error) {
+        res.json(error)
+    }
+}
+
 cartsController.removeProduct = async (req, res) => {
     try {
         const productId = req.params.productId
         const customerId = req.user.id
 
-        const cart = await Cart.findOne({ customerId: customerId })
+        const cart = await Cart.findOneAndUpdate({ customerId: customerId, "cartItems.productId": productId }, { $pull: { cartItems: { productId: productId } } }, { new: true, runValidators: true })
 
-        const product = cart.cartItems.find(ele => ele.productId.valueOf() === productId)
-
-        let cartItem
-
-        if (product.quantity == 1) {
-            cartItem = await Cart.findOneAndUpdate({ customerId: customerId }, { $pull: { cartItems: { productId: productId } } }, { new: true, runValidators: true })
-
-        } else if (product.quantity > 1) {
-            cartItem = await Cart.findOneAndUpdate({ _id: cart._id, "cartItems.productId": productId }, { $inc: { "cartItems.$.quantity": -1 } }, { new: true, runValidators: true })
-        }
-
-        res.json(cartItem)
+        const updatedCart = await Cart.findOne({ customerId: customerId }).populate("cartItems.productId")
+        res.json(updatedCart)
 
     } catch (error) {
         res.json(error)
