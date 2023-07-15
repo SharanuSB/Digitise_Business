@@ -2,6 +2,8 @@ import { useDispatch } from "react-redux"
 import { startAddCartProducts } from "../../Redux/Actions/cartsAction"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from 'react-responsive-carousel'
+import Swal from "sweetalert2"
+import {withRouter} from "react-router-dom"
 
 const ViewProduct = (props) => {
 
@@ -13,6 +15,14 @@ const ViewProduct = (props) => {
 
     const handleAddToCart = (id) => {
         dispatch(startAddCartProducts(id, shopId))
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Product Added to Cart',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          props.history.push("/cart")
     }
 
     return (
@@ -44,4 +54,4 @@ const ViewProduct = (props) => {
     )
 }
 
-export default ViewProduct
+export default withRouter(ViewProduct)

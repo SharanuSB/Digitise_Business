@@ -9,6 +9,8 @@ import TotalShops from "../SuperAdmin/TotalShops"
 import ListProducts from "../Customers/ListProducts"
 import HomePage from "./Home"
 import Cart from "../Customers/Shop"
+import PrivateRoute from "../../config/PrivateRoute"
+import ProtectedRoute from "../../config/ProtectedRoute"
 
 const Navbar = (props) => {
 
@@ -120,10 +122,11 @@ const Navbar = (props) => {
             <Route path="/userRegister" component={CustomerRegister} exact={true} />
             <Route path="/shopOwnerRegister" component={OwnerRegister} exact={true} />
             <Route path="/login" component={Login} exact={true} />
-            <Route path="/shop" component={Shop} exact={true} />
-            <Route path="/totalShops" component={TotalShops} exact={true} />
-            <Route path="/:id/products" component={ListProducts} exact={true} />
-            <Route path="/cart" component={Cart} exact={true} />
+            <PrivateRoute path="/:id/products" component={ListProducts} exact={true} />
+            <PrivateRoute path="/cart" component={Cart} exact={true} />
+            <ProtectedRoute path="/shop" role = {tokenData?.role} component={Shop} exact={true} />
+            <ProtectedRoute path="/totalShops" role = {tokenData?.role} component={TotalShops} exact={true} />
+            
         </>
     )
 } 

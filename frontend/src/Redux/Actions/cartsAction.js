@@ -50,3 +50,49 @@ export const startAddCartProducts = (id, shopId)=>{
         )()
     }
 }
+
+export const startDecProductQuantity = (id)=>{
+    return (dispatch)=>{
+        (
+            async()=>{
+                try {
+                    const product = await Axios.put(`/api/carts/decQuantity/${id}`, {}, {headers:{"Auth":localStorage.getItem("token")}})
+                    dispatch(setCart(product.data))
+                } catch (error) {
+                    alert(error.message)
+                }
+            }
+        )()
+    }
+}
+
+export const startIncProductQuantity = (id)=>{
+    return (dispatch)=>{
+        (
+            async()=>{
+                try {
+                    const product = await Axios.post(`/api/carts/addProducts/${id}`, {}, {headers:{"Auth":localStorage.getItem("token")}})
+                    dispatch(setCart(product.data))
+                } catch (error) {
+                    alert(error.message)
+                }
+            }
+        )()
+    }
+}
+
+export const startRemoveProductFromCart = (id)=>{
+    return (dispatch)=>{
+        (
+            async()=>{
+                try {
+                    const product = await Axios.put(`/api/carts/removeProducts/${id}`, {}, {headers:{"Auth":localStorage.getItem("token")}})
+                    console.log(product.data)
+                } catch (error) {
+                    alert(error.message)
+                }   
+               
+            }
+        )()
+    }
+}

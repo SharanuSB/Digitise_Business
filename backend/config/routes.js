@@ -100,6 +100,7 @@ router.post("/api/products/addImage/:id", userAuthentication, upload.single("ima
 /// Api's for Carts Model --------
 router.get("/api/carts", userAuthentication, cartsController.show)
 router.post("/api/carts/addProducts/:productId", userAuthentication, cartsController.addProducts)
+router.put("/api/carts/decQuantity/:productId", userAuthentication, cartsController.decreaseQuantity)
 router.put("/api/carts/removeProducts/:productId", userAuthentication, cartsController.removeProduct)
 
 
