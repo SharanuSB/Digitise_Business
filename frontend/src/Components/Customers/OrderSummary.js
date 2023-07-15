@@ -1,11 +1,20 @@
+import {useDispatch} from "react-redux"
+import { startPlaceOrder } from "../../Redux/Actions/ordersAction"
+
 const OrderSummary = (props) => {
 
     const {cart} = props
+
+    const dispatch = useDispatch()
 
     const cartTotal = cart.cartItems.reduce((pv, cv) => {
         return pv + cv.quantity * cv.productId.price
     }, 0)
 
+
+    const handleCheckout = (amount)=>{
+        dispatch(startPlaceOrder(amount))
+    }
 
     return (
         <div className="position-fixed p-2">
@@ -34,7 +43,7 @@ const OrderSummary = (props) => {
                         <h4 className="text-success">Rs. {cartTotal}</h4>
                     </div>
                 </div>
-                <button className="btn btn-primary">Proceed to Checkout</button>
+                <button className="btn btn-primary" onClick={()=>{handleCheckout(cartTotal)}}>Proceed to Checkout</button>
             </div>
         </div>
     )

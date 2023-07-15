@@ -106,11 +106,14 @@ router.put("/api/carts/removeProducts/:productId", userAuthentication, cartsCont
 
 /// Api's for Order Model -----
 router.get('/api/orders/list', userAuthentication, ordersController.list)
+router.get("/api/getKey", userAuthentication, ordersController.getKey )
+router.post("/api/paymentVerification", ordersController.paymentVerification)
 router.get("/api/orders/listByShop", userAuthentication, (req, res, next) => {
     req.permittedRoles = ["shopOwner"]
     next()
 }, authorizeUser, authorizeOwner, ordersController.listByShop)
 router.post('/api/orders/create', userAuthentication, ordersController.create)
+
 
 
 module.exports = router

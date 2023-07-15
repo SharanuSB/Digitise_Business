@@ -1,15 +1,22 @@
 const Cart = require('../models/Cart')
 const Order = require('../models/Order')
-const Product = require('../models/Product')
-const Shop = require('../models/Shop')
+const Razorpay = require("razorpay")
+const crypto = require("crypto")
+
+require("dotenv").config()
 
 const ordersController = {}
+
+const paymentInstance = new Razorpay({
+    key_id: process.env.RAZORPAY_API_KEY,
+    key_secret: process.env.RAZORPAY_SECRET
+})
 
 ordersController.list = async (req, res) => {
     try {
         const customerId = req.user.id
-        const order = await Order.find({customerId: customerId})
-        if(order) {
+        const order = await Order.find({ customerId: customerId })
+        if (order.length!==0) {
             res.json(order)
         } else {
             res.json([])
@@ -19,40 +26,75 @@ ordersController.list = async (req, res) => {
     }
 }
 
+ordersController.getKey = async (req, res) => {
+    try {
+        const key = process.env.RAZORPAY_API_KEY
+        res.json(key)
+    } catch (error) {
+        res.json(error)
+    }
+}
+
 ordersController.create = async (req, res) => {
     try {
-        const customerId = req.user.id
-        const cart = await Cart.findOne({customerId: customerId})
-        const shopId = cart.shopId
-        
-        const cartItems = cart.cartItems
-
-        const orderNumber = Math.round(Math.random() * 100000000)
-
-        const itemsWithPrice = await Promise.all(cartItems.map(async (item) => {
-            const product = await Product.findById(item.productId)
-            const WithPrice = {
-                productId: item.productId,
-                quantity: item.quantity,
-                price: product.price
-            }
-            return WithPrice
-        }))
-
-        const totalPrice = itemsWithPrice.reduce((total, item) => total + (item.price * item.quantity), 0)
-
-        const body = req.body
-        const order = await Order.create({orderNumber: orderNumber, customerId: customerId, orderItems: itemsWithPrice, ...body, Total: totalPrice, shopId: shopId})
-        if(order) {
-            res.json(order)
-            await Cart.findByIdAndDelete(cart._id)
+        const amount = req.body.amount
+        const options = {
+            amount: Number(amount * 100),
+            currency: "INR",
+        }
+        const order = await paymentInstance.orders.create(options)
+        if(order){
+            res.status(200).json({
+                success: true, order
+            })
         }
     } catch (error) {
         res.json(error)
     }
 }
 
-ordersController.delete = async(req, res) => {
+ordersController.paymentVerification = async (req, res) => {
+    try {
+        const {customerId, amount} = req.query
+
+        const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body
+
+        const body = razorpay_order_id + "|" + razorpay_payment_id
+
+        const expectedSignature =crypto.createHmac("sha256", process.env.RAZORPAY_SECRET).update(body.toString()).digest("hex")
+
+        const isAuthentic = expectedSignature === razorpay_signature
+
+        if(isAuthentic){
+            const cart = await Cart.findOne({customerId: customerId})
+            const cartItems = cart.cartItems
+
+            const order = await Order.create({orderId:razorpay_order_id,paymentId:razorpay_payment_id,paymentSignature:razorpay_signature, customerId: customerId, orderItems:[...cartItems], Total:amount})
+
+            if(order){
+                await Cart.findByIdAndDelete(cart._id)
+                res.redirect(
+                    `http://localhost:3000/account?paymentId=${razorpay_payment_id}`
+                )
+            }else{
+                res.status(400).json({
+                    error:"Unable to Create the Order"
+                })
+            }
+
+        }else{
+            res.status(400).json({
+                success:false
+            })
+        }
+
+    } catch (error) {
+        res.json(error)
+    }
+
+}
+
+ordersController.delete = async (req, res) => {
     try {
         const orderId = req.params.id
         const deleteOrder = await Order.findByIdAndDelete(orderId)
@@ -62,13 +104,13 @@ ordersController.delete = async(req, res) => {
     }
 }
 
-ordersController.listByShop = async(req, res)=>{
+ordersController.listByShop = async (req, res) => {
     try {
         const shopId = req.params.id
-        const orders = await Order.find({shopId:shopId})
-        if(orders){
+        const orders = await Order.find({ shopId: shopId })
+        if (orders) {
             res.json(orders)
-        }else{
+        } else {
             res.json([])
         }
     } catch (error) {
