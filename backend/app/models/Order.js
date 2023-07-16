@@ -30,7 +30,7 @@ const orderSchema = new Schema({
     }],
     status: {
         type: Boolean,
-        default: false
+        default: true
     },
     paymentId: {
         type: String,

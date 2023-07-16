@@ -10,8 +10,6 @@ const DisplayImage = (props) => {
     const dispatch = useDispatch()
     const [photo, setPhoto] = useState("")
 
-    const [open, setOpen] = useState(false)
-
     const { images, id } = props
 
     const handleAddImage = async (e, id) => {

@@ -32,7 +32,7 @@ const ViewProduct = (props) => {
                     <Carousel showThumbs={false}>
                         {
                             image.map(ele => {
-                                return <img src={`http://127.0.0.1:3333/${ele}`} width="400" height="400" alt="HTML tag" style={{ maxWidth: "400px", maxHeight: "400px" }} />
+                                return <img src={`http://127.0.0.1:3333/${ele}`} width="400" height="400" alt={``} style={{ maxWidth: "400px", maxHeight: "400px" }} />
                             })
                         }
                     </Carousel>

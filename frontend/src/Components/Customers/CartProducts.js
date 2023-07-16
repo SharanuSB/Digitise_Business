@@ -1,7 +1,7 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { startDecProductQuantity, startIncProductQuantity, startRemoveProductFromCart } from "../../Redux/Actions/cartsAction";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Swal from "sweetalert2"
 
 const CartProducts = (props) => {

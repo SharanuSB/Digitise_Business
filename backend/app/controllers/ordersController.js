@@ -15,7 +15,7 @@ const paymentInstance = new Razorpay({
 ordersController.list = async (req, res) => {
     try {
         const customerId = req.user.id
-        const order = await Order.find({ customerId: customerId })
+        const order = await Order.find({ customerId: customerId }).populate("orderItems.productId").populate("orderItems.shopId")
         if (order.length!==0) {
             res.json(order)
         } else {
