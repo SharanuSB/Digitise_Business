@@ -9,7 +9,7 @@ const Cart = (props) => {
 
     useEffect(() => {
         dispatch(startSetCustomerCart());
-    }, []);
+    }, [dispatch]);
 
     const cart = useSelector((state) => {
         return state.carts.data;
@@ -18,7 +18,7 @@ const Cart = (props) => {
     return (
         <div className="container">
             {Object.keys(cart).length === 0 ? (
-                <div className="card justify-content-center align-items-center">
+                <div className="card shadow justify-content-center align-items-center">
                     <h1>There are no items in your cart</h1>
                     <p>Add the Products</p>
                 </div>

@@ -4,9 +4,7 @@ import { clearSearchedShops, startSearchShops } from '../../Redux/Actions/shopsA
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const HomeCustomer = () => {
-
-    const dispatch = useDispatch()
-
+    const dispatch = useDispatch();
     const [searchTerm, setSearchTerm] = useState('');
     const searchInputRef = useRef(null);
 
@@ -18,10 +16,10 @@ const HomeCustomer = () => {
     useEffect(() => {
         searchInputRef.current.focus();
 
-        return ()=>{
+        return () => {
             dispatch(clearSearchedShops([]))
         }
-    }, []);
+    }, [dispatch]);
 
     const shops = useSelector((state) => {
         return state.shops.searchedShops
@@ -50,9 +48,14 @@ const HomeCustomer = () => {
                     ))}
                 </ul>
 
+
+                <div className="text-center mt-5">
+                    <h2>Discover Amazing Shops Near You!</h2>
+                    <p>Support local businesses and find unique products.</p>
+                </div>
             </div>
         </div>
     )
 }
 
-export default HomeCustomer
+export default HomeCustomer;

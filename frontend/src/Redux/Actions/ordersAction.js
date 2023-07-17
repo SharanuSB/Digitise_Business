@@ -60,6 +60,7 @@ export const startSetOrder = ()=>{
                 try {
                     const {data} = await Axios.get("/api/orders/list", {headers:{"Auth":token}})
                     if(data){
+                        console.log(data)
                         dispatch(setOrder(data))
                     }
                 } catch (error) {

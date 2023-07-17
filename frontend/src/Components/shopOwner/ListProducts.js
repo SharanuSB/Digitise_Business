@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { startGetProducts } from "../../Redux/Actions/productsAction"
+import { startDeleteProduct, startGetProducts } from "../../Redux/Actions/productsAction"
 import AddProducts from "./AddProducts"
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
 import DisplayImage from "./DisplayImage"
+import Swal from "sweetalert2"
+import EditProduct from "./EditProduct"
 
 
 const ListProducts = (props) => {
 
     const { shop } = props
+
+    const [editInfo, setEditInfo] = useState({})
+    const [isEditToggle, setIsEditToggle] = useState(false)
 
     const [modal, setModal] = useState(false)
 
@@ -24,16 +29,61 @@ const ListProducts = (props) => {
         return state.products.data
     })
 
-    const handleAdd = () => toggle()
+    const handleAdd = () =>{
+        setIsEditToggle(false)
+        toggle()
+    } 
+
+    const handleDelete = (product) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(startDeleteProduct(product))
+                Swal.fire(
+                    'Deleted!',
+                    'Your product has been deleted.',
+                    'success'
+                )
+            }
+        })
+    }
+
+    const handleEdit = (editObj) => {
+        setEditInfo(editObj)
+        setIsEditToggle(true)
+        toggle()
+    }
+
 
     return (
         <div className="container">
-            <Modal isOpen={modal} toggle={toggle}>
-                <ModalHeader toggle={toggle}>Add New Products Here ....</ModalHeader>
-                <ModalBody>
-                    <AddProducts shop={shop} toggle={toggle} />
-                </ModalBody>
-            </Modal>
+            {isEditToggle ? (
+                <div>
+                    <Modal isOpen={modal} toggle={toggle}>
+                        <ModalHeader toggle={toggle}>Edit Products Here ...</ModalHeader>
+                        <ModalBody>
+                            <EditProduct shop={shop} handleEdit={handleEdit} editInfo={editInfo} />
+                        </ModalBody>
+                    </Modal>
+                </div>
+            ) : (
+                <div>
+                    <Modal isOpen={modal} toggle={toggle}>
+                        <ModalHeader toggle={toggle}>Add Products Here</ModalHeader>
+                        <ModalBody>
+                            <AddProducts shop={shop} toggle={toggle} />
+                        </ModalBody>
+                    </Modal>
+                </div>
+            )}
+
             <button onClick={handleAdd} className="btn btn-secondary btn-sm p-1 my-1">Add Products</button>
 
             <div className="container row my-2">
@@ -48,10 +98,10 @@ const ListProducts = (props) => {
                                     <div className="p-2">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <button className="btn-sm btn btn-outline-warning">Edit</button>
+                                                <button className="btn-sm btn btn-outline-warning" onClick={()=>{handleEdit(product)}}>Edit</button>
                                             </div>
                                             <div class="col-md-3">
-                                                <button className="btn btn-sm btn-outline-danger">Delete</button>
+                                                <button className="btn btn-sm btn-outline-danger" onClick={()=>{handleDelete(product)}}>Delete</button>
                                             </div>
                                         </div>
                                     </div>

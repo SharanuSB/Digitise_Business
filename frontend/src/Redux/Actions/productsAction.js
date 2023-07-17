@@ -1,85 +1,102 @@
 import Axios from "../../config/Axios"
-
+import Swal from "sweetalert2"
 export const SET_PRODUCTS = "SET_PRODUCTS"
 export const ADD_PRODUCTS = "ADD_PRODUCTS"
 export const CUSTOMER_PRODUCTS = "CUSTOMER_PRODUCTS"
 export const ADD_IMAGE = "ADD_IMAGE"
+export const DELETE_PRODUCT = "DELETE_PRODUCT"
+export const EDIT_PRODUCT = 'EDIT_PRODUCT'
 
-const setProducts = (data)=>{
+
+const setProducts = (data) => {
     return {
-        type:SET_PRODUCTS,
-        payload:data
+        type: SET_PRODUCTS,
+        payload: data
     }
 }
 
-const addProducts = (data)=>{
+const addProducts = (data) => {
     return {
-        type:ADD_PRODUCTS,
-        payload:data
+        type: ADD_PRODUCTS,
+        payload: data
     }
 }
 
-const customerProducts = (data)=>{
+const customerProducts = (data) => {
     return {
-        type:CUSTOMER_PRODUCTS,
-        payload:data
+        type: CUSTOMER_PRODUCTS,
+        payload: data
     }
 }
 
-const setImage = (data)=>{
+const setImage = (data) => {
     return {
-        type:ADD_IMAGE,
-        payload:data
+        type: ADD_IMAGE,
+        payload: data
+    }
+}
+
+const deleteProduct = (data) => {
+    return {
+        type: DELETE_PRODUCT,
+        payload: data
+    }
+}
+
+const editProduct = (data) => {
+    return {
+        type: EDIT_PRODUCT,
+        payload: data
     }
 }
 
 
-export const startGetProducts = (id)=>{
-    return (dispatch)=>{
+export const startGetProducts = (id) => {
+    return (dispatch) => {
         (
-            async()=>{
+            async () => {
                 try {
-                    const products = await Axios.get(`/api/products/listAll/${id}`, {headers:{"Auth":localStorage.getItem("token")}})
+                    const products = await Axios.get(`/api/products/listAll/${id}`, { headers: { "Auth": localStorage.getItem("token") } })
                     dispatch(setProducts(products.data))
                 } catch (error) {
                     alert(error.message)
                 }
-                
+
             }
         )()
     }
 }
 
-export const startAddProducts = (formData, id)=>{
+export const startAddProducts = (formData, id) => {
 
-    return (dispatch)=>{
+    return (dispatch) => {
         (
-            async()=>{
+            async () => {
                 try {
-                    const product = await Axios.post(`/api/products/create/${id}`, formData, {headers:{"Auth":localStorage.getItem("token")}})
+                    const product = await Axios.post(`/api/products/create/${id}`, formData, { headers: { "Auth": localStorage.getItem("token") } })
                     console.log(product.data)
-                    if(!product.data.errors){
+                    if (!product.data.errors) {
                         dispatch(addProducts(product.data))
                         console.log(product.data)
                         alert(`${product.data.name} added successfully`)
-                    }else{
+                    } else {
                         alert(product.data.errors.price?.message)
                     }
                 } catch (error) {
                     alert(error.message)
                 }
-                
+
             }
         )()
     }
 }
 
-export const startGetCustomerProducts = (id)=>{
-    return (dispatch)=>{
+export const startGetCustomerProducts = (id) => {
+    return (dispatch) => {
         (
-            async()=>{
+            async () => {
                 try {
-                    const products = await Axios.get(`/api/products/listAll/${id}`, {headers:{"Auth":localStorage.getItem("token")}})
+                    const products = await Axios.get(`/api/products/listAll/${id}`, { headers: { "Auth": localStorage.getItem("token") } })
                     dispatch(customerProducts(products.data))
                 } catch (error) {
                     alert(error.message)
@@ -89,18 +106,58 @@ export const startGetCustomerProducts = (id)=>{
     }
 }
 
-export const startAddProductImage = (id, formData)=>{
-    return (dispatch)=>{
+export const startAddProductImage = (id, formData) => {
+    return (dispatch) => {
         (
-            async()=>{
+            async () => {
                 try {
-                    const product = await Axios.post(`/api/products/addImage/${id}`, formData, {headers:{"Auth":localStorage.getItem("token")}})
+                    const product = await Axios.post(`/api/products/addImage/${id}`, formData, { headers: { "Auth": localStorage.getItem("token") } })
                     console.log(product.data, "hi")
-                   dispatch(setImage(product.data))
+                    dispatch(setImage(product.data))
                 } catch (error) {
                     alert(error.message)
                 }
             }
         )()
+    }
+}
+
+export const startDeleteProduct = (product) => {
+    return async (dispatch) => {
+        try {
+            const products = await Axios.delete(`/api/products/destroy/${product.shopId}?id=${product._id}`, {
+                headers: {
+                    "Auth": localStorage.getItem("token")
+                },
+            })
+            dispatch(deleteProduct(products.data))
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error,
+            })
+
+        }
+    }
+}
+
+export const startEditProduct = (formData, shop, editObj) => {
+    return async (dispatch) => {
+        try {
+            const updatedProduct = await Axios.put(`/api/products/update/${editObj._id}?id=${shop._id}`, formData, {
+                headers: {
+                    "Auth": localStorage.getItem("token")
+                }
+            })
+            dispatch(editProduct(updatedProduct.data))
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error,
+            })
+          
+        }
     }
 }
