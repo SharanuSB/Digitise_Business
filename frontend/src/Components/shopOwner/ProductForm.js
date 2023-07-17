@@ -5,9 +5,12 @@ import { startGetAllCategories } from "../../Redux/Actions/categoriesAction"
 
 
 const ProductForm = (props) => {
-    const [name, setName] = useState("")
-    const [price, setPrice] = useState(0)
-    const [categoryId, setCategoryId] = useState("")
+
+    const {name: n, price: p, categoryId: cId} = props
+
+    const [name, setName] = useState(n ? n : "")
+    const [price, setPrice] = useState(p ? p : 0)
+    const [categoryId, setCategoryId] = useState(cId ? cId : "")
 
     const { submitForm, shop } = props
 
@@ -20,7 +23,7 @@ const ProductForm = (props) => {
 
     useEffect(() => {
         dispatch(startGetAllCategories(shop._id))
-    }, [dispatch, shop._id])
+    }, [dispatch])
 
 
     const handleProductSubmit = (e) => {
@@ -40,11 +43,10 @@ const ProductForm = (props) => {
                 <input type="text"
                     id="name" value={name}
                     className="form-control"
-                    placeholder="Enter the Shop Name"
+                    placeholder="Enter the product Name"
                     onChange={(e) => { setName(e.target.value) }}
                     required
                 /><br />
-
 
                 <label htmlFor="pass" className="form-label" >Price <sup style={{ color: "red" }}>*</sup></label><br />
                 <input type="text"
@@ -73,4 +75,4 @@ const ProductForm = (props) => {
     )
 }
 
-export default ProductForm
+export default ProductForm
