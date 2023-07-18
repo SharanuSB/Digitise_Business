@@ -1,28 +1,48 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearSearchedShops, startSearchShops } from '../../Redux/Actions/shopsActions';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { clearSearchedShops, startSearchShops } from '../../Redux/Actions/shopsActions'
+import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 
 const HomeCustomer = () => {
-    const dispatch = useDispatch();
-    const [searchTerm, setSearchTerm] = useState('');
-    const searchInputRef = useRef(null);
-
-    const handleSearch = (e) => {
-        setSearchTerm(e.target.value)
-        dispatch(startSearchShops(e.target.value))
-    };
+    const dispatch = useDispatch()
+    const [searchTerm, setSearchTerm] = useState('')
+    const searchInputRef = useRef(null)
 
     useEffect(() => {
-        searchInputRef.current.focus();
+        searchInputRef.current.focus()
 
         return () => {
             dispatch(clearSearchedShops([]))
         }
     }, [dispatch]);
 
+    // Debounce Function for Preventing the Unnecessary function calls
+
+    const debounce = (func, delay) => {
+        let timerId
+        return function (...args) {
+            clearTimeout(timerId)
+            timerId = setTimeout(() => {
+                func.apply(this, args)
+            }, delay)
+        }
+    }
+
+    const handleSearch = useCallback(
+        debounce((value) => {
+          dispatch(startSearchShops(value))
+        }, 250), 
+        [dispatch]  
+      )
+    
+      const handleChange = (e) => {
+        const inputValue = e.target.value
+        setSearchTerm(inputValue)
+        handleSearch(inputValue)
+      }
+
     const shops = useSelector((state) => {
-        return state.shops.searchedShops?.filter((ele) => ele.isVerified == true)
+        return state.shops.searchedShops?.filter((ele) => ele.isVerified === true)
     })
 
     return (
@@ -36,14 +56,14 @@ const HomeCustomer = () => {
                         className="form-control"
                         placeholder="Search for shops..."
                         value={searchTerm}
-                        onChange={handleSearch}
+                        onChange={handleChange}
                         ref={searchInputRef}
                     />
                 </div>
                 <ul className="list-group mt-4">
                     {shops.map((shop) => (
                         <li key={shop._id} className="text-center text-uppercase fs-4 list-group-item">
-                           <span className='fw-bold'> <Link to ={`/${shop.name.toLowerCase()}/products`}>{shop.name}</Link></span>
+                            <span className='fw-bold'> <Link to={`/${shop.name.toLowerCase()}/products`}>{shop.name}</Link></span>
                         </li>
                     ))}
                 </ul>
