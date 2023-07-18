@@ -96,7 +96,7 @@ const TotalShops = (props) => {
                             <blockquote ><span className="fw-bold text-uppercase">Website : </span>{shop.website}</blockquote>
 
                             <button className="btn btn-danger" onClick={() => { handleDeleteShop(shop._id) }}>
-                                <span className="fw-bold">Decline</span>
+                                <span className="fw-bold">Delete</span>
                             </button>
                         </div>
                     })

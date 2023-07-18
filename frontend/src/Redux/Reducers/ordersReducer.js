@@ -1,7 +1,8 @@
 import { SET_ORDERS } from "../Actions/ordersAction"
 
 const ordersInitalState = {
-    data:[]
+    data:[],
+    shopOrders:[]
 }
 
 const ordersReducer = (state=ordersInitalState, action)=>{

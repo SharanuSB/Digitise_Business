@@ -26,6 +26,18 @@ ordersController.list = async (req, res) => {
     }
 }
 
+ordersController.listByShop = async (req, res) => {
+    try {
+      const shopId = req.params.shopId
+      const orders = await Order.find({ 'orderItems.shopId': shopId })
+        .populate('customerId', 'name email') 
+        .populate('orderItems.productId', 'name price')
+      res.status(200).json(orders);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch orders' });
+    }
+  }
+
 ordersController.getKey = async (req, res) => {
     try {
         const key = process.env.RAZORPAY_API_KEY
@@ -104,18 +116,6 @@ ordersController.delete = async (req, res) => {
     }
 }
 
-ordersController.listByShop = async (req, res) => {
-    try {
-        const shopId = req.params.id
-        const orders = await Order.find({ shopId: shopId })
-        if (orders) {
-            res.json(orders)
-        } else {
-            res.json([])
-        }
-    } catch (error) {
-        res.json(error)
-    }
-}
+
 
 module.exports = ordersController
