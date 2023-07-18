@@ -7,8 +7,8 @@ const OrderSummary = (props) => {
 
     const dispatch = useDispatch()
 
-    const cartTotal = cart.cartItems.reduce((pv, cv) => {
-        return pv + cv.quantity * cv.productId.price
+    const cartTotal = cart.cartItems?.reduce((pv, cv) => {
+        return pv + cv.quantity * cv.productId?.price
     }, 0)
 
 

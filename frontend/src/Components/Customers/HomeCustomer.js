@@ -22,7 +22,7 @@ const HomeCustomer = () => {
     }, [dispatch]);
 
     const shops = useSelector((state) => {
-        return state.shops.searchedShops
+        return state.shops.searchedShops?.filter((ele) => ele.isVerified == true)
     })
 
     return (

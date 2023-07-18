@@ -12,6 +12,7 @@ import Cart from "../Customers/Shop"
 import PrivateRoute from "../../config/PrivateRoute"
 import ProtectedRoute from "../../config/ProtectedRoute"
 import Account from "../Customers/Account"
+import Orders from "../shopOwner/Orders"
 
 const Navbar = (props) => {
 
@@ -131,9 +132,9 @@ const Navbar = (props) => {
             <PrivateRoute path="/:id/products" component={ListProducts} exact={true} />
             <PrivateRoute path="/cart" component={Cart} exact={true} />
             <PrivateRoute path="/account" component={Account} exact={true} />
+            <PrivateRoute path="/orders" role = {tokenData?.role} component={Orders} exact={true} />
             <ProtectedRoute path="/shop" role = {tokenData?.role} component={Shop} exact={true} />
             <ProtectedRoute path="/totalShops" role = {tokenData?.role} component={TotalShops} exact={true} />
-            
         </>
     )
 } 
