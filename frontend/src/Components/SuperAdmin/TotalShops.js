@@ -17,6 +17,8 @@ const TotalShops = (props) => {
 
     const pendingVerifyShops = shops.filter(shop => shop.isVerified === false)
 
+    const verifiedShops = shops.filter(shop => shop.isVerified === true)
+
     const handleVerifyShop = (id) => {
         Swal.fire({
             title: 'Do you want to save the changes?',
@@ -63,10 +65,10 @@ const TotalShops = (props) => {
                 {
                     pendingVerifyShops &&
                     pendingVerifyShops.map(shop => {
-                        return <div className="col-md-4 card shadow p-2 fs-5">
+                        return <div key={shop._id} className="col-md-4 card shadow p-2 fs-5">
                             <blockquote ><span className="fw-bold text-uppercase">Name : </span>{shop.name}</blockquote>
                             <blockquote ><span className="fw-bold text-uppercase">Address : </span>{shop.address}</blockquote>
-                            <blockquote ><span className="fw-bold text-uppercase">Contact Number : </span>{shop.contactNumber}</blockquote>
+                            <blockquote ><span className="fw-bold text-uppercase">Contact Number : </span> {shop.contactNumber}</blockquote>
                             <blockquote ><span className="fw-bold text-uppercase">Website : </span>{shop.website}</blockquote>
 
                             <button className="btn btn-success my-2 p-2"
@@ -77,7 +79,26 @@ const TotalShops = (props) => {
                                 <span className="fw-bold">Decline</span>
                             </button>
                         </div>
+                    })
+                }
+            </div>
+            <div className="my-5"></div>
+            <div className="row gap-5">
+                <h1 className="col-md-4 text text-uppercase badge bg-secondary text-wrap fs-4">Verified Shops - {verifiedShops.length}</h1>
+                <span className="col-md-4"></span>
+                {
+                    verifiedShops &&
+                    verifiedShops.map(shop => {
+                        return <div key={shop._id} className="col-md-4 card shadow p-2 fs-5">
+                            <blockquote ><span className="fw-bold text-uppercase">Name : </span>{shop.name}</blockquote>
+                            <blockquote ><span className="fw-bold text-uppercase">Address : </span>{shop.address}</blockquote>
+                            <blockquote ><span className="fw-bold text-uppercase">Contact Number : </span>{shop.contactNumber}</blockquote>
+                            <blockquote ><span className="fw-bold text-uppercase">Website : </span>{shop.website}</blockquote>
 
+                            <button className="btn btn-danger" onClick={() => { handleDeleteShop(shop._id) }}>
+                                <span className="fw-bold">Decline</span>
+                            </button>
+                        </div>
                     })
                 }
             </div>

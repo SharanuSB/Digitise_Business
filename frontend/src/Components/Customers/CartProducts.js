@@ -77,7 +77,7 @@ const CartProducts = (props) => {
                             </div>
                             <div className="p-2">
                                 <h4 className="fw-bold">Product Total: <span className="text-success"> {item.quantity * item?.productId?.price}</span></h4>
-                                <button className="btn btn-outline-warning btn-sm" onClick={()=>{handleRemoveFromCart(item.productId._id)}}>Remove</button>
+                                <button className="btn btn-outline-warning btn-sm" onClick={()=>{handleRemoveFromCart(item?.productId?._id)}}>Remove</button>
                             </div>
                         </div>
                     </div>
