@@ -16,7 +16,7 @@ const Account = (props) => {
     return (
         <div className="container mt-5">
             <div className="row">
-                <h2 className="mb-4 text-secondary">Total Pending Orders - {orders.length}</h2>
+                <h2 className="mb-4 text-secondary">Total Orders - {orders.length}</h2>
             </div>
             <div className="row">
                 {orders.map((order) => {
@@ -36,8 +36,8 @@ const Account = (props) => {
                                         {order.orderItems.map((item) => {
                                             return (
                                                 <li key={item._id} className="list-group-item">
-                                                    <p className="card-text"><strong>Product Name:</strong> {item.productId.name} ({item.quantity})</p>
-                                                    <p className="card-text"><strong>Shop Name:</strong> {item.shopId.name}</p>
+                                                    <p className="card-text"><strong>Product Name:</strong> {item.productId?.name} ({item.quantity})</p>
+                                                    <p className="card-text"><strong>Shop Name:</strong> {item.shopId?.name}</p>
                                                     <p className="card-text"><strong>Address:</strong> {item.shopId.address}</p>
                                                 </li>
                                             );

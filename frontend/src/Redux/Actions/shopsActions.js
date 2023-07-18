@@ -1,3 +1,4 @@
+import Swal from "sweetalert2"
 import Axios from "../../config/Axios"
 export const SET_SHOP = "SET_SHOP"
 export const CREATE_SHOP = "CREATE_SHOP"
@@ -72,6 +73,11 @@ export const startCreateShop = (formData) => {
                         }
                     })
                     dispatch(setCreateShop(shop.data))
+                    Swal.fire(
+                        'Good job!',
+                        'Shop is been Created now add your products',
+                        'success'
+                      )
                 } catch (error) {
                     alert(error.message)
                 }
