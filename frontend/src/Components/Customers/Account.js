@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { startSetOrder } from "../../Redux/Actions/ordersAction";
+import { startSetCustomerOrder } from "../../Redux/Actions/ordersAction";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const Account = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(startSetOrder());
+        dispatch(startSetCustomerOrder());
     }, [dispatch]);
 
     const orders = useSelector((state) => {

@@ -53,22 +53,34 @@ export const startPlaceOrder = (amount) => {
     }
 }
 
-export const startSetOrder = ()=>{
+export const startSetCustomerOrder = ()=>{
     return (dispatch)=>{
         (
             async()=>{
                 try {
                     const {data} = await Axios.get("/api/orders/list", {headers:{"Auth":token}})
                     if(data){
-                        console.log(data)
                         dispatch(setOrder(data))
                     }
                 } catch (error) {
                     alert(error.message)
-                }
-                
-                
+                }    
             }
         )() 
+    }
+}
+
+export const startSetShopOrders = (id)=>{
+    return (dispatch)=>{
+        (
+            async()=>{
+                try {
+                    const {data} = await Axios.get(`/api/orders/listByShop/${id}`, {headers:{"Auth":token}})
+                    console.log(data)
+                } catch (error) {
+                    alert(error.message)
+                }
+            }
+        )()
     }
 }

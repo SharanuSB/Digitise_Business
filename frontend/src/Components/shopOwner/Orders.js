@@ -1,6 +1,25 @@
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { useEffect } from "react"
+import { startSetShopOrders } from "../../Redux/Actions/ordersAction"
+import { startGetShopDetails } from "../../Redux/Actions/shopsActions"
 
 const Orders = (props)=>{
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(startGetShopDetails());
+    }, [dispatch]);
+
+    const shop = useSelector((state) => {
+        return state.shops.data;
+    });
+
+    useEffect(()=>{
+        if(shop?._id){
+            dispatch(startSetShopOrders(shop?._id))
+        } 
+    },[dispatch])
 
     const orders = useSelector((state) => {
         return state.orders.data

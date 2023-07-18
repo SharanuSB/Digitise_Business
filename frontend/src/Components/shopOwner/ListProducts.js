@@ -96,11 +96,11 @@ const ListProducts = (props) => {
                                     <blockquote className="text-uppercase fs-3"><span className="fw-bold">Name</span> : {product.name}</blockquote>
                                     <blockquote className="text-uppercase fs-3"><span className="fw-bold">Price</span> : {product.price}</blockquote>
                                     <div className="p-2">
-                                        <div class="row">
-                                            <div class="col-md-3">
+                                        <div className="row">
+                                            <div className="col-md-3">
                                                 <button className="btn-sm btn btn-outline-warning" onClick={()=>{handleEdit(product)}}>Edit</button>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div className="col-md-3">
                                                 <button className="btn btn-sm btn-outline-danger" onClick={()=>{handleDelete(product)}}>Delete</button>
                                             </div>
                                         </div>
