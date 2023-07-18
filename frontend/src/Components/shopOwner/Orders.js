@@ -5,7 +5,7 @@ const Orders = (props)=>{
     const orders = useSelector((state) => {
         return state.orders.data
     })
-    console.log(orders)
+
 
     return (
         <div className="container mt-5">
@@ -19,7 +19,7 @@ const Orders = (props)=>{
                             <div className="card shadow">
                                 <div className="card-body">
                                     <h5 className="card-title text-secondary">Order Details</h5>
-                                    {order.status && (
+                                    {order?.status && (
                                         <span className="text-success">Order Placed ✅</span>
                                     )}
                                     <hr />

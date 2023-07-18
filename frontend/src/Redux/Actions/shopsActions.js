@@ -151,6 +151,7 @@ export const startSearchShops = (text) => {
             async () => {
                 try {
                     const shops = await Axios.get(`/api/search/shops?text=${text}`, { headers: { "Auth": localStorage.getItem("token") } })
+                    console.log("Search Function Called")
                     dispatch(setSearchedShops(shops.data))
                } catch (error) {
                     alert(error.message)

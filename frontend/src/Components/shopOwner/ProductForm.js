@@ -23,7 +23,7 @@ const ProductForm = (props) => {
 
     useEffect(() => {
         dispatch(startGetAllCategories(shop._id))
-    }, [dispatch])
+    }, [dispatch, shop._id])
 
 
     const handleProductSubmit = (e) => {

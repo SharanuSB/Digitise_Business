@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startSetOrder } from "../../Redux/Actions/ordersAction";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const Account = (props) => {
     const dispatch = useDispatch();
@@ -15,7 +16,22 @@ const Account = (props) => {
 
     return (
         <div className="container mt-5">
-            <div className="row">
+            {
+                orders.length===0?
+                <div className="card shadow p-4 mt-5">
+                <h2 className="text-center mb-4">No Orders Placed Yet</h2>
+                <p className="text-center fs-5">
+                  You haven't placed any orders yet. Browse the products and start
+                  shopping!
+                </p>
+                <div className="text-center mt-4">
+                <Link to="/" className="btn btn-primary btn-browse-products">
+                    Browse Products
+                  </Link>
+                </div>
+              </div>:
+                <>
+                     <div className="row">
                 <h2 className="mb-4 text-secondary">Total Orders - {orders.length}</h2>
             </div>
             <div className="row">
@@ -50,6 +66,8 @@ const Account = (props) => {
                     );
                 })}
             </div>
+                </>
+            }
         </div>
     );
 };

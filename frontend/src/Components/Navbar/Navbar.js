@@ -1,4 +1,5 @@
 import decode from "jwt-decode"
+import Swal from "sweetalert2"
 import { Link, Route, withRouter } from "react-router-dom/cjs/react-router-dom.min"
 import Login from "./Login"
 import CustomerRegister from "./CustomerRegister"
@@ -13,17 +14,32 @@ import PrivateRoute from "../../config/PrivateRoute"
 import ProtectedRoute from "../../config/ProtectedRoute"
 import Account from "../Customers/Account"
 import Orders from "../shopOwner/Orders"
+import NavItems from "./NavItems"
 
 const Navbar = (props) => {
 
     const token = localStorage.getItem("token")
 
     const handleLogout = () => {
-        const confirmLogout = window.confirm("Are u sure to logout")
-        if (confirmLogout) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You Want to Logout!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Logout'
+          }).then((result) => {
+            if (result.isConfirmed) {
             localStorage.removeItem("token")
             props.history.push("/")
-        }
+              Swal.fire(
+                'Logged Out!',
+                '',
+                'success'
+              )
+            }
+          })
     }
 
     let tokenData
@@ -51,79 +67,10 @@ const Navbar = (props) => {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            {token ? (
-                                <>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/">
-                                            Home
-                                        </Link>
-                                    </li>
-                                    {tokenData.role === 'customer' && (
-                                        <>
-                                            <li className="nav-item">
-                                                <Link className="nav-link" to="/cart">
-                                                    Cart
-                                                </Link>
-                                            </li>
-                                            <li className="nav-item">
-                                                <Link className="nav-link" to="/account">
-                                                    Account
-                                                </Link>
-                                            </li>
-                                        </>
-                                    )}
-                                    {tokenData.role === 'shopOwner' && (
-                                        <>
-                                            <li className="nav-item">
-                                                <Link className="nav-link" to="/shop">
-                                                    Shop
-                                                </Link>
-                                            </li>
-                                            <li className="nav-item">
-                                                <Link className="nav-link" to="/orders">
-                                                    Orders
-                                                </Link>
-                                            </li>
-                                        </>
-                                    )}
-                                    {tokenData.role === 'superAdmin' && (
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to="/totalShops">
-                                                Shops
-                                            </Link>
-                                        </li>
-                                    )}
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/logout" onClick={handleLogout}>
-                                            Logout
-                                        </Link>
-                                    </li>
-                                </>
-                            ) : (
-                                <>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/userRegister">
-                                            User Register
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/shopOwnerRegister">
-                                            Owner Register
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/login">
-                                            Login
-                                        </Link>
-                                    </li>
-                                </>
-                            )}
-                        </ul>
+                        <NavItems tokenData={tokenData} handleLogout={handleLogout}/>
                     </div>
                 </div>
             </nav>
-
 
             <Route path="/" component={HomePage} exact={true} />
             <Route path="/userRegister" component={CustomerRegister} exact={true} />
