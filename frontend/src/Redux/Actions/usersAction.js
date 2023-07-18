@@ -1,5 +1,5 @@
-import axios from "../../config/Axios"
 import Swal from "sweetalert2"
+import axios from "../../config/Axios"
 
 export const startRegisterUserAccount = (formData, props) => {
 
@@ -12,6 +12,11 @@ export const startRegisterUserAccount = (formData, props) => {
                         alert("Email or Phone is Already taken")
                     } else {
                         alert("Successfully registered account")
+                        Swal.fire(
+                            'Good job!',
+                            'Successfully Registered the Account',
+                            'success'
+                          )
                         props.history.push("/login")
                     }
                 } catch (error) {

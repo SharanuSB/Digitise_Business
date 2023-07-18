@@ -74,11 +74,15 @@ export const startAddProducts = (formData, id) => {
             async () => {
                 try {
                     const product = await Axios.post(`/api/products/create/${id}`, formData, { headers: { "Auth": localStorage.getItem("token") } })
-                    console.log(product.data)
                     if (!product.data.errors) {
                         dispatch(addProducts(product.data))
-                        console.log(product.data)
-                        alert(`${product.data.name} added successfully`)
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Product is Created',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
                     } else {
                         alert(product.data.errors.price?.message)
                     }

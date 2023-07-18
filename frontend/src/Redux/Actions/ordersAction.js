@@ -27,7 +27,7 @@ export const startPlaceOrder = (amount) => {
                         name: "Sharanu SB",
                         description: "Test Payments",
                         image: "http://avatars.githubusercontent.com/u/134317226?v=4",
-                        order_id: await order?.id,
+                        order_id: order?.id,
                         callback_url: `http://localhost:3333/api/paymentVerification?customerId=${tokenData.id}&amount=${order.amount}`,
                         prefill: {
                             name: "SharanuSb",
