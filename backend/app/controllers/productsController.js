@@ -30,7 +30,7 @@ productsController.listAll = async (req, res) => {
 productsController.create = async (req, res) => {
     try {
         const body = req.body
-        const shopId = req.params.id
+        const shopId = req.params.shopId
         const categoryId = req.query.categoryId
         const product = await Product.create({ ...body, shopId: shopId, categoryId: categoryId })
 

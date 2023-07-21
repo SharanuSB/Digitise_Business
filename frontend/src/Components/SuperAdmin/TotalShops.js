@@ -27,6 +27,7 @@ const TotalShops = (props) => {
             confirmButtonText: 'Verify',
         }).then((result) => {
             if (result.isConfirmed) {
+                console.log(id)
                 dispatch(startVerifyShop(id))
                 Swal.fire('Shop is verified!', '', 'success')
             } else if (result.isDenied) {

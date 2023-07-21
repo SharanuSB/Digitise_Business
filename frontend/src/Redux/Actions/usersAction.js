@@ -11,7 +11,6 @@ export const startRegisterUserAccount = (formData, props) => {
                     if (user.data?.keyValue) {
                         alert("Email or Phone is Already taken")
                     } else {
-                        alert("Successfully registered account")
                         Swal.fire(
                             'Good job!',
                             'Successfully Registered the Account',

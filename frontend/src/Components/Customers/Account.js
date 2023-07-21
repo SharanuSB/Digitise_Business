@@ -11,7 +11,7 @@ const Account = (props) => {
     }, [dispatch]);
 
     const orders = useSelector((state) => {
-        return state.orders.data;
+        return state.orders?.data;
     });
 
     return (
@@ -32,10 +32,10 @@ const Account = (props) => {
               </div>:
                 <>
                      <div className="row">
-                <h2 className="mb-4 text-secondary">Total Orders - {orders.length}</h2>
+                <h2 className="mb-4 text-secondary">Total Orders - {orders?.length}</h2>
             </div>
             <div className="row">
-                {orders.map((order) => {
+                {orders&& orders.map((order) => {
                     return (
                         <div key={order._id} className="col-md-4 mb-4">
                             <div className="card shadow">

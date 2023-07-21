@@ -73,7 +73,7 @@ export const startAddProducts = (formData, id) => {
         (
             async () => {
                 try {
-                    const product = await Axios.post(`/api/products/create/${id}`, formData, { headers: { "Auth": localStorage.getItem("token") } })
+                    const product = await Axios.post(`/api/products/create/${id}?categoryId=${formData.categoryId}`, formData, { headers: { "Auth": localStorage.getItem("token") } })
                     if (!product.data.errors) {
                         dispatch(addProducts(product.data))
                         Swal.fire({
@@ -146,10 +146,10 @@ export const startDeleteProduct = (product) => {
     }
 }
 
-export const startEditProduct = (formData, shop, editObj) => {
+export const startEditProduct = (formData, editObj, shop) => {
     return async (dispatch) => {
         try {
-            const updatedProduct = await Axios.put(`/api/products/update/${editObj._id}?id=${shop._id}`, formData, {
+            const updatedProduct = await Axios.put(`/api/products/update/${shop._id}?id=${editObj._id}`, formData, {
                 headers: {
                     "Auth": localStorage.getItem("token")
                 }

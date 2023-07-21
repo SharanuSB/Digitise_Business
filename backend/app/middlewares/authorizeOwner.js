@@ -2,8 +2,9 @@ const Shop = require("../models/Shop")
 
 const authorizeOwner = async(req, res, next)=>{
     const userId = req.user.id
-    const shopId = req.params.id
+    const shopId = req.params.shopId
     const shopObj = await Shop.findOne({shopOwnerId:userId})
+
     if(shopObj){
         if(shopObj._id==shopId){
             next()

@@ -11,7 +11,9 @@ const OrderSummary = (props) => {
   }, 0);
 
   const handleCheckout = (amount) => {
-    dispatch(startPlaceOrder(amount));
+    if(amount){
+      dispatch(startPlaceOrder(amount))
+    }
   };
 
   return (

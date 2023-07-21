@@ -47,6 +47,7 @@ export const startAddCategory = (formData, id) => {
                             "Auth": localStorage.getItem("token")
                         }
                     })
+                    console.log(category.data, "category")
                     if (category.data?.errors) {
                         alert(category.data?.errors.name.message)
                     } else {

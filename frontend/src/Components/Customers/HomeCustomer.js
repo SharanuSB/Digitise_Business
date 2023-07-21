@@ -18,28 +18,22 @@ const HomeCustomer = () => {
 
     // Debounce Function for Preventing the Unnecessary function calls
 
-    const debounce = (func, delay) => {
-        let timerId
-        return function (...args) {
-            clearTimeout(timerId)
-            timerId = setTimeout(() => {
-                func.apply(this, args)
-            }, delay)
-        }
-    }
+    // const debounce = (func, delay) => {
+    //     let timerId
+    //     return function (...args) {
+    //         clearTimeout(timerId)
+    //         timerId = setTimeout(() => {
+    //             func.apply(this, args)
+    //         }, delay)
+    //     }
+    // }
 
-    const handleSearch = useCallback(
-        debounce((value) => {
-          dispatch(startSearchShops(value))
-        }, 250), 
-        [dispatch]  
-      )
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value)
+        dispatch(startSearchShops(e.target.value))
+    }
     
-      const handleChange = (e) => {
-        const inputValue = e.target.value
-        setSearchTerm(inputValue)
-        handleSearch(inputValue)
-      }
+     
 
     const shops = useSelector((state) => {
         return state.shops.searchedShops?.filter((ele) => ele.isVerified === true)
@@ -56,7 +50,7 @@ const HomeCustomer = () => {
                         className="form-control"
                         placeholder="Search for shops..."
                         value={searchTerm}
-                        onChange={handleChange}
+                        onChange={handleSearch}
                         ref={searchInputRef}
                     />
                 </div>
