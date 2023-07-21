@@ -23,7 +23,7 @@ router.put("/api/users/update", userAuthentication, usersController.update)
 /// Api's For Category Model ------
 router.get("/api/categories/listAll/:id", userAuthentication, categoryController.listAll)
 
-router.post("/api/categories/create/:id", userAuthentication, (req, res, next) => {
+router.post("/api/categories/create/:shopId", userAuthentication, (req, res, next) => {
     req.permittedRoles = ['shopOwner']
     next()
 }, authorizeUser, authorizeOwner, categoryController.create)
@@ -57,17 +57,17 @@ router.post("/api/shops", userAuthentication, (req, res, next) => {
     next()
 }, authorizeUser, shopsController.create)
 
-router.put("/api/shops/:id", userAuthentication, (req, res, next) => {
+router.put("/api/shops/:shopId", userAuthentication, (req, res, next) => {
     req.permittedRoles = ["shopOwner"]
     next()
 }, authorizeUser, authorizeOwner, shopsController.update)
 
-router.delete("/api/shops/:id", userAuthentication, (req, res, next) => {
+router.delete("/api/shops/:shopId", userAuthentication, (req, res, next) => {
     req.permittedRoles = ["superAdmin"]
     next()
 }, authorizeUser, shopsController.destroy)
 
-router.put("/api/verify/shop/:id", userAuthentication, (req, res, next) => {
+router.put("/api/verify/shop/:shopId", userAuthentication, (req, res, next) => {
     req.permittedRoles = ["superAdmin"]
     next()
 }, authorizeUser, shopsController.verify)
@@ -77,17 +77,17 @@ router.put("/api/verify/shop/:id", userAuthentication, (req, res, next) => {
 
 router.get("/api/products/listAll/:id", userAuthentication, productsController.listAll)
 
-router.post("/api/products/create/:id", userAuthentication, (req, res, next) => {
+router.post("/api/products/create/:shopId", userAuthentication, (req, res, next) => {
     req.permittedRoles = ["shopOwner"]
     next()
-}, authorizeUser, authorizeOwner,upload.single("image"), productsController.create)
+}, authorizeUser, authorizeOwner, productsController.create)
 
-router.put("/api/products/update/:id", userAuthentication, (req, res, next) => {
+router.put("/api/products/update/:shopId", userAuthentication, (req, res, next) => {
     req.permittedRoles = ["shopOwner"]
     next()
 }, authorizeUser, authorizeOwner, productsController.update)
 
-router.delete("/api/products/destroy/:id", userAuthentication, (req, res, next) => {
+router.delete("/api/products/destroy/:shopId", userAuthentication, (req, res, next) => {
     req.permittedRoles = ["shopOwner"]
     next()
 }, authorizeUser, authorizeOwner, productsController.destroy)

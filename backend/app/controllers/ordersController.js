@@ -30,7 +30,7 @@ ordersController.listByShop = async (req, res) => {
     try {
       const shopId = req.params.shopId
       const orders = await Order.find({ 'orderItems.shopId': shopId })
-        .populate('customerId', 'name email') 
+        .populate('customerId', 'username email') 
         .populate('orderItems.productId', 'name price')
       res.status(200).json(orders);
     } catch (error) {

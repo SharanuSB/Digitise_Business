@@ -63,7 +63,7 @@ shopsController.update = async (req, res) => {
 
 shopsController.destroy = async (req, res) => {
     try {
-        const id = req.params.id
+        const id = req.params.shopId
         const shop = await Shop.findOneAndDelete({ _id: id })
         if (shop) {
             res.json(shop)
@@ -77,7 +77,7 @@ shopsController.destroy = async (req, res) => {
 
 shopsController.verify = async (req, res) => {
     try {
-        const id = req.params.id
+        const id = req.params.shopId
         const shop = await Shop.findOneAndUpdate({ _id: id }, { isVerified: true }, { new: true, runValidators: true })
         if (shop) {
             res.json(shop)

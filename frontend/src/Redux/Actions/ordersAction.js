@@ -1,10 +1,18 @@
 import Axios from "../../config/Axios"
 import decode from "jwt-decode"
 export const SET_ORDERS = "SET_ORDERS"
+export const SHOP_ORDERS = "SHOP_ORDERS"
 
 const setOrder = (data)=>{
     return {
         type:SET_ORDERS,
+        payload:data
+    }
+}
+
+const setShopOrder = (data)=>{
+    return {
+        type:SHOP_ORDERS,
         payload:data
     }
 }
@@ -76,7 +84,7 @@ export const startSetShopOrders = (id)=>{
             async()=>{
                 try {
                     const {data} = await Axios.get(`/api/orders/listByShop/${id}`, {headers:{"Auth":token}})
-                    console.log(data)
+                    dispatch(setShopOrder(data))
                 } catch (error) {
                     alert(error.message)
                 }

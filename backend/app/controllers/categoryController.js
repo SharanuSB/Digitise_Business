@@ -5,7 +5,7 @@ const categoryController = {}
 
 categoryController.create = async(req, res) => {
     try {
-        const shopId = req.params.id
+        const shopId = req.params.shopId
         const body = req.body
         const category = await Category.create({shopId:shopId, ...body})
         if(category) {
@@ -14,7 +14,7 @@ categoryController.create = async(req, res) => {
             res.json({})
         }
     } catch (error) {
-        res.json(error)
+        res.json(error) 
     }
 }
 

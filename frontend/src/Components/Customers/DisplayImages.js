@@ -10,7 +10,7 @@ const DisplayImages = (props) => {
             <>
                 <Carousel showThumbs={false}>
                     {
-                        images.map(ele => {
+                        images?.map(ele => {
                             return <img src={`http://127.0.0.1:3333/${ele}`} width="400" height="300" alt="HTML tag" style={{ maxWidth: "400px", maxHeight: "300px" }} />
                         })
                     }
