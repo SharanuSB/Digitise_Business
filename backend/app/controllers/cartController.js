@@ -4,7 +4,7 @@ const cartsController = {}
 
 cartsController.show = async (req, res) => {
     try {
-        const customerId = req.user.id;
+        const customerId = req.user.id
         const cart = await Cart.findOne({ customerId: customerId }).populate("cartItems.productId")
         if (cart) {
             res.json(cart)
