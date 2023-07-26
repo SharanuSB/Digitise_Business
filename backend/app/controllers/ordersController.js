@@ -32,9 +32,9 @@ ordersController.listByShop = async (req, res) => {
       const orders = await Order.find({ 'orderItems.shopId': shopId })
         .populate('customerId', 'username email') 
         .populate('orderItems.productId', 'name price')
-      res.status(200).json(orders);
+      res.status(200).json(orders)
     } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch orders' });
+      res.status(500).json({ error: 'Failed to fetch orders' })
     }
   }
 

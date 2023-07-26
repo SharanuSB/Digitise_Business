@@ -23,7 +23,7 @@
 
 
         const orders = useSelector((state) => {
-            return state.orders.shopOrders
+            return state.orders?.shopOrders
         })
 
 
